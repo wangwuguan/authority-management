@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<head th:include="comm::header">  
+	</head>
+	<style>
+		.aa{
+			margin-top:0px; 
+			margin-left:10px; 
+		}
+		.bb{
+			width: 700px;
+			height: 70px;
+			 border: 0px black solid; 
+			margin-left: 3px;
+			text-align: center;
+		}
+		.cc{
+			width:99%;
+			height: 460px;
+			 border: 0px black solid; 
+			margin-left: 3px;
+		}
+		.dd{
+			margin-top:-20px;
+		}
+		.ee{
+			margin-bottom: 8px;
+		}
+		.ff{
+			width: 85px;
+			height: 28px;
+		}
+		.gg{
+			margin-left: -2px;
+		}
+		
+	</style>
+	<body>
+	<div class="x-body">
+	<form action="addCompany" method="post" class="layui-form layui-col-md12 x-so" lay-filter="formTest">
+		<table   width="80%" height="700px" cellpadding="1" cellspacing="0" >
+			<tr>
+				<td>
+					<table class="aa"   width="99%" height="120px" cellpadding="1" cellspacing="0" >
+						<tr>
+							<td align="center"><h1  style="font-weight: bold;">单位开户功能</h1></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					 <fieldset>
+						<legend><h2>请输入单位信息</h2></legend> 
+				<table  width="90%" height="550px"  cellspacing="0">
+					<form action="">
+					<td width="50%">
+						<div class="bb">
+							<h2  style="font-weight: bold;">缴存单位信息</h2>
+						</div>
+						<div class="cc">
+							<table width="100%"  height="460px"  cellspacing="0">
+								<tr>
+									<td align="center" width="50%">
+						     <div class="layui-inline ee">
+						      <label class="layui-form-label">公司名称</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cname" lay-verify="required" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">公司地址</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="csite" lay-verify="required" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+					<!-- 	    
+						    <div  class="layui-input-inline">
+					              <select name="rid" id="role">
+					                <option value="0">--请选择--</option>
+					              </select>
+					          </div> -->
+						      <div class="layui-input-inline ee">
+							    <label class="layui-form-label">公司类型</label>
+							    <div class="layui-input-inline">
+							      <select name="ctype" lay-verify="required" id="ctype">
+							        <option value="">--&nbsp;请选择&nbsp;--</option>
+							      </select>
+							    </div>
+							  </div>
+							  
+						      <div class="layui-input-inline ee">
+							    <label class="layui-form-label">所属行业</label>
+							    <div class="layui-input-inline">
+							      <select name="cindustry" lay-verify="required" id="cindustry">
+							        <option value="">--&nbsp;请选择&nbsp;--</option>
+							      </select>
+							    </div>
+							  </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">隶属关系</label>
+							      <div class="layui-input-inline">
+							      <select name="crelation" lay-verify="required" id="crelation">
+							        <option value="">--&nbsp;请选择&nbsp;--</option>
+							      </select>
+							      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">经济类型</label>
+							      <div class="layui-input-inline">
+							      <select name="ceconomic" lay-verify="required" id="ceconomic">
+							        <option value="">--&nbsp;请选择&nbsp;--</option>
+							      </select>
+							      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">机构代码</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" id="cinstitution" name="cinstitution" lay-verify="required|institutionCode" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">月发薪日</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cmonth" lay-verify="required|monthDay" autocomplete="off" class="layui-input">
+						      </div>
+						    </div> 
+									</td>
+									<td align="center">
+										
+						 	<div class="layui-inline ee">
+						      <label class="layui-form-label">法人名字</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="clegal" lay-verify="required|username" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">证件类型</label>
+							      <div class="layui-input-inline">
+							      <select name="ccertificate" lay-verify="required" id="ccertificate">
+							        <option value="">--&nbsp;请选择&nbsp;--</option>
+							      </select>
+							      </div>
+						    </div>
+						   <div class="layui-inline ee">
+						      <label class="layui-form-label">证件号码</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cnumber" lay-verify="required|identity"  autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						     <div class="layui-inline ee">
+						      <label class="layui-form-label">经办人姓名</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="coperator" lay-verify="required|username" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">经办人电话</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cphone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">证件类型</label>
+							      <div class="layui-input-inline">
+							      <select name="ccertificates" lay-verify="required" id="ccertificates">
+							        <option  value="">--请选择&nbsp;--</option>
+							      </select>
+							      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">证件号码</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cnumbers" lay-verify="required|identity" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label">成立日期</label>
+						      <div class="layui-input-inline">
+									<input type="text" name="ctime" class="layui-input" id="starttime">
+						      </div>
+						    </div>
+						   
+											
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					</fieldset>
+					 
+					<td width="50%">
+						<div class="bb">
+							<h2  style="font-weight: bold;">账户信息</h2>
+						</div>
+						<div class="cc">
+							<table width="100%" height="460px"  cellspacing="0">
+								<tr>
+									<td width="50%" align="center">
+						
+							<div class="layui-inline ee">
+						      <label class="layui-form-label ff">开户银行名字</label>
+							      <div class="layui-input-inline">
+							      <select name="cbank" lay-verify="required" id="cbank">
+							        <option value="">--&nbsp;请选择&nbsp;--</option>
+							      </select>
+							      </div>
+						    </div>
+						    <!-- <div class="layui-inline ee">
+						      <label class="layui-form-label ff">单位开户日期</label>
+						      <div class="layui-input-inline">
+						        <input type="text" id="test1" name="cdate"  lay-verify="required|phone" autocomplete="off" class="layui-input">
+						      </div>
+						    </div> -->
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label ff">开户银行账户</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cbankno" lay-verify="required|reg" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label ff">单位缴存比例</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cdeposit" lay-verify="required" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline ee">
+						      <label class="layui-form-label ff">个人缴存比例</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="cdeposits" lay-verify="required" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						   <div class="layui-inline ee">
+						      <label class="layui-form-label ff">账号开户状态</label>
+						      <div class="layui-input-inline">
+						        <input type="tel" name="stateid" placeholder="待审核" lay-verify="" autocomplete="off" class="layui-input" readonly>
+						      </div>
+						    </div>
+						     <div class="layui-inline ee">
+						     
+						      <div class="layui-input-inline">
+						        <input type="hidden" name="curl" id="curl"  lay-verify="" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+							</td>
+						<td>
+							
+										<div class="layui-upload">
+										<input type="hidden" id="curl" name="curl"/>
+							  					<button type="button"  class="layui-btn layui-btn-danger" id="uploadImg">
+							  					<i class="layui-icon"></i>上传图片</button>
+												<!-- <div class="layui-inline layui-word-aux">这里以限制 60KB 为例</div> -->
+												<div class="layui-upload-list">
+							    					<img class="layui-upload-img" style="width:100px;height:150px" id="demo1">
+							    					<p id="demoText"></p>
+							  					</div>
+										 </div> 
+										<input type="submit" class="layui-btn"  lay-submit="" value="提交"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					</form>
+				</table>
+				 <!-- </fieldset> -->
+				</td>
+			</tr>
+		</table>
+		</form>
+		</div>
+		
+	</body>
+	<script>
+		layui.use(['laydate','form','upload'], function(){
+		  var laydate = layui.laydate,
+		  upload = layui.upload,
+		  form = layui.form;
+		  //执行一个laydate实例
+		  laydate.render({
+		    elem: '#test1' //指定元素
+		  });
+		  
+		//自定义验证规则(机构代码唯一性)
+		  form.verify({
+			//机构代码唯一性验证
+	            institutionCode: function(value,item){ //value：表单的值、item：表单的DOM对象
+	            	//ajax同步请求
+	            	var checkResult = "";
+	                $.ajax({
+	                	url: "/company/selectInstitution",
+	                    type: "post",
+	                    cache:false,
+	                    data:{
+	                    	cinstitution: $("#cinstitution").val(),
+	                    },
+	                    async:false,
+	                    success: function (data) {
+	                        if (data=="fail") {
+	                        	checkResult = "已存在" ;
+	                        } 
+	                    }
+
+	                });
+	                return checkResult;
+	            }
+			  
+			  
+			  
+		  });
+		//日期选择1
+		  var nowTime = new Date().valueOf();      
+		  var start = laydate.render({
+			        elem: '#starttime',
+			        type: 'date',
+			        max: nowTime,
+			        btns: ['clear', 'confirm'],
+			        done: function(value, date){
+			            endMax = end.config.max;
+			            end.config.min = date;
+			            end.config.min.month = date.month -1;
+			        }
+			    });
+
+		  //加载下拉框中的数据
+		  //证件类型
+		  $.ajax({
+			  url:"/combobox/selectCertificate",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].cetid+"'>"+data[i].cetname+"</option>";
+				 }
+				 
+				 $("#ccertificate").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		  //加载下拉框中的数据
+		  //证件类型
+		  $.ajax({
+			  url:"/combobox/selectCertificate",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].cetid+"'>"+data[i].cetname+"</option>";
+				 }
+				 
+				 $("#ccertificates").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		  //加载下拉框中的数据
+		  //公司类型
+		  $.ajax({
+			  url:"/combobox/selectCompanyType",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].ctid+"'>"+data[i].ctname+"</option>";
+				 }
+				 
+				 $("#ctype").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		  //加载下拉框中的数据
+		  //所属行业
+		  $.ajax({
+			  url:"/combobox/selectIndustry",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].iid+"'>"+data[i].iname+"</option>";
+				 }
+				 
+				 $("#cindustry").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		  
+		  //加载下拉框中的数据
+		  //隶属关系
+		  $.ajax({
+			  url:"/combobox/selectRelation",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].reid+"'>"+data[i].rename+"</option>";
+				 }
+				 
+				 $("#crelation").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+			//加载下拉框中的数据
+		    //经济类型
+		  $.ajax({
+			  url:"/combobox/selectEconomicType",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].etid+"'>"+data[i].etname+"</option>";
+				 }
+				 
+				 $("#ceconomic").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		//加载下拉框中的数据
+		//银行
+		  $.ajax({
+			  url:"/combobox/selectBank",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].bid+"'>"+data[i].bname+"</option>";
+				 }
+				 
+				 $("#cbank").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		  //重新刷新form表单
+		  layui.use('form', function(){  //此段代码必不可少
+		      var form = layui.form;
+		      form.render();
+		  });
+		//图片上传
+          var uploadInst = upload.render({
+        	    elem: '#uploadImg'
+        	    ,url: '/news/upload'
+        	    ,size: 3000 //限制文件大小，单位 KB
+        	    ,before: function(obj){
+        	      //预读本地文件示例，不支持ie8
+        	      obj.preview(function(index, file, result){
+        	        $('#demo1').attr('src', result); //图片链接（base64）
+        	      });
+        	    }
+        	    ,done: function(res){
+        	      $("#curl").val(res.data);
+        	      //如果上传失败
+        	      if(res.code > 0){
+        	        return layer.msg('上传失败');
+        	      }
+        	      //上传成功
+        	    }
+        	    ,error: function(){
+        	      //演示失败状态，并实现重传
+        	      var demoText = $('#demoText');
+        	      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+        	      demoText.find('.demo-reload').on('click', function(){
+        	        uploadInst.upload();
+        	      });
+        	      layer.msg("错误");
+        	    }
+        	  });
+		});
+</script>
+</html>

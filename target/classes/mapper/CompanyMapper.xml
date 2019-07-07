@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.CompanyDao">
+	<!-- 查询公司 -->
+	<select id="selectCompany" resultType="map">
+		select sum(pbasenum) bases,sum(counts) sums,sum(countss) sumss,sum(counts)+sum(countss) sum,count(pid) renshu,c.*,s.*,p.* from company c 
+		left JOIN state s on c.stateid=s.sid 
+		left join person p on c.cid=p.acid 
+		where stateid=2
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+		<if test="starttime!=null and starttime!=''">
+			<![CDATA[ and DATE_FORMAT(c.cdate, '%Y-%m-%d') >= DATE_FORMAT(#{starttime}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			<![CDATA[ and DATE_FORMAT(c.cdate, '%Y-%m-%d') <= DATE_FORMAT(#{endtime}, '%Y-%m-%d')   ]]>
+		</if>
+		GROUP BY c.cid
+		order by c.cdate desc
+		limit #{page},#{limit}
+	</select>
+	<!-- 查询公司开户记录 -->
+	<select id="selectCompanys" resultType="map">
+		select sum(pbasenum) bases,sum(counts) sums,sum(countss) sumss,sum(counts)+sum(countss) sum,count(pid) renshu,c.*,s.*,p.* from companys c 
+		left JOIN state s on c.stateid=s.sid 
+		left join person p on c.cid=p.acid 
+		where stateid!=1
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+		<if test="starttime!=null and starttime!=''">
+			<![CDATA[ and DATE_FORMAT(c.cdate, '%Y-%m-%d') >= DATE_FORMAT(#{starttime}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			<![CDATA[ and DATE_FORMAT(c.cdate, '%Y-%m-%d') <= DATE_FORMAT(#{endtime}, '%Y-%m-%d')   ]]>
+		</if>
+		GROUP BY c.cid
+		order by c.cdate desc
+		limit #{page},#{limit}
+	</select>
+	<insert id="insertCompany">
+		insert into company(cno,cname,csite,ctype,cindustry,crelation,ceconomic,cinstitution,
+							cmonth,clegal,ccertificate,cnumber,coperator,cphone,ccertificates,
+							cnumbers,ctime,cbank,cdate,cbankno,userid,cdeposit,cdeposits)
+					values(#{cno},#{cname},#{csite},#{ctype},#{cindustry},#{crelation},#{ceconomic},#{cinstitution},
+							#{cmonth},#{clegal},#{ccertificate},#{cnumber},#{coperator},#{cphone},#{ccertificates},
+							#{cnumbers},#{ctime},#{cbank},now(),#{cbankno},#{userid},#{cdeposit},#{cdeposits}) 
+	</insert>
+	<!-- 插入记录表 -->
+	<insert id="insertCompanys">
+		insert into companys(cno,cname,csite,ctype,cindustry,crelation,ceconomic,cinstitution,
+							cmonth,clegal,ccertificate,cnumber,coperator,cphone,ccertificates,
+							cnumbers,ctime,cbank,cdate,cbankno,userid,cdeposit,cdeposits,cdatetime)
+					values(#{cno},#{cname},#{csite},#{ctype},#{cindustry},#{crelation},#{ceconomic},#{cinstitution},
+							#{cmonth},#{clegal},#{ccertificate},#{cnumber},#{coperator},#{cphone},#{ccertificates},
+							#{cnumbers},#{ctime},#{cbank},now(),#{cbankno},#{userid},#{cdeposit},#{cdeposits},now()) 
+	</insert>
+	<!-- 分页查询总条数 -->
+	<select id="getCount" resultType="Integer">
+		select count(*) from company c
+		left join state s on c.stateid=s.sid 
+		left join `user` u on c.userid=u.uid
+		where c.stateid=2
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+		<if test="starttime!=null and starttime !=''"> and c.cdate >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and c.cdate &lt;= #{endtime} </if>
+	</select>
+	<!-- 分页查询总条数 -->
+	<select id="getCounts" resultType="Integer">
+		select count(*) from companys c
+		left join state s on c.stateid=s.sid 
+		left join `user` u on c.userid=u.uid
+		where 1=1
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+		<if test="starttime!=null and starttime !=''"> and c.cdate >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and c.cdate &lt;= #{endtime} </if>
+	</select>
+	<!-- 查询出单位账号中的最大值加一 -->
+	<select id="selectCompanyMaxCno" resultType="Integer">
+		select cno+1 from company order by cno desc limit 1
+	</select>
+	
+	<select id="selectCompanyInfoById"  resultType="company">
+		select * from company,bank,company_type,industry,relation,economic_type,state,user
+		where ctype=ctid and cbank=bid and cindustry=iid and crelation=reid and ceconomic=etid and stateid=sid and userid=uid
+		and  cid=#{cid} 
+	</select>
+	
+	<!-- 查询机构代码 -->
+	<select id="selectInstitution"  resultType="company">
+		select * from company where cinstitution=#{cinstitution}
+	</select>
+</mapper>

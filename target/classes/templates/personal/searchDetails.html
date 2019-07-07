@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>searchDetails.html</title>
+	 <head th:include="comm::header">
+  </head>
+  
+  <body>
+    	<div class="x-nav">
+		<span class="layui-breadcrumb">
+	        <a href="http://www.baidu.com">首页</a>
+	        <a href="javascript:;">公积金提取</a>
+	        <a>
+	          <cite>部分提取</cite></a>
+	    </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+   <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+      	状态：<div class="layui-input-inline" >
+   				<select name="pstateid" id="pstateid">
+           			<option value="">--请选择--</option>
+           		</select>
+           	</div>   
+                 开户日期:
+     <div class="layui-input-inline">
+			<input type="text"  readonly id="starttime"   placeholder=""   class="layui-input" name="starttime">
+	 </div>
+           到
+     <div class="layui-input-inline" style="margin-right:15px;">
+			<input type="text"  readonly id="endtime"   placeholder=""   class="layui-input" name=" endtime">
+	 </div>
+            姓名:
+     <div class="layui-input-inline">
+			<input type="text" name="pname" id="pname1" autocomplete="off" class="layui-input">
+	 </div> 
+         		<a class="layui-btn"  id="search" onclick="searchUser()" ><i class="layui-icon">&#xe615;</i></a>
+         </form>
+      </div>
+      <xblock>
+        <button class="layui-btn"><i class="layui-icon"></i>公积金员工信息表</button>
+  		<span class="x-right" style="color:#000000;" idstyle="line-height:40px">公积金员工管理信息</span>
+      </xblock>
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+	</div>
+	
+	<script type="text/javascript" th:inline="none">
+	layui.use(['table','form','element','laydate','layer'], function(){
+		  var table = layui.table,
+		  laydate=layui.laydate,
+		  form=layui.form,
+		  layer = layui.layer;
+		  
+		//数据获取
+		  table.render({
+		    elem: '#test'
+		    ,url:'/personal/findPerson'
+		    ,title: '用户数据表'
+		    ,cols: [[
+		      {type: 'numbers', title: '编号',fixed: 'left'}
+		      ,{field:'pno', title: '个人公积金账号' }
+		      ,{field:'pname', title: '姓名' }
+		      ,{field:'cname', title: '公司名称' }
+		      ,{field:'p2', title: '个人缴纳' }
+		      ,{field:'p1', title: '公司缴纳' }
+		      ,{field:'pbasenum', title: '共缴纳' }
+		      ,{field:'', title: '业务类型' }
+		      ,{field:'cdatetime', title: '缴纳日期' }
+		      ,{field:'uname', title: '创建人' }
+		    ]]
+		    ,page: true
+		  });
+		
+		  //加载下拉框中的数据
+		  $.ajax({
+			  url:"/personal/selectPstateid",
+			  type:"post",
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				 /* layer.alert(JSON.stringify(data)); */
+				 var list = "";
+				 for (var i = 0; i < data.length; i++) {
+					list+="<option value='"+data[i].pstateid+"'>"+data[i].pstate+"</option>";
+				 }
+				 
+				 $("#pstateid").append(list);
+				 renderForm();
+			  },
+			  error:function(data){
+				  layer.msg("错误");
+			  }
+		  });
+		
+		//日期选择1
+		  var nowTime = new Date().valueOf();      
+		  var start = laydate.render({
+			        elem: '#starttime',
+			        type: 'date',
+			        max: nowTime,
+			        btns: ['clear', 'confirm'],
+			        done: function(value, date){
+			            endMax = end.config.max;
+			            end.config.min = date;
+			            end.config.min.month = date.month -1;
+			        }
+			    });
+		  //日期选择2
+			    var end = laydate.render({
+			        elem: '#endtime',
+			        type: 'date',
+			   		 max: nowTime,
+			        done: function(value, date){
+			            if($.trim(value) == ''){
+			                var curDate = new Date();
+			                date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+			            }
+			            start.config.max = date;
+			            start.config.max.month = date.month -1;
+			        }
+			    });
+	});
+			  //模糊查询刷新页面
+				function searchUser(){
+				  layui.use('table', function(){
+					  var table = layui.table;
+					  var pstateid = $("#pstateid").val();
+					  var starttime = $("#starttime").val();
+					  var endtime = $("#endtime").val();
+					  var pname = $("#pname1").val();
+					  table.reload('test', {
+						  url: '/personal/findPerson'
+						 /*  ,method:"post" */
+						  ,where: {
+							  pstateid:pstateid,
+							  starttime:starttime,
+							  endtime:endtime,
+							 pname:pname
+						  } //设定异步数据接口的额外参数
+						  ,page: {
+				  			 	curr: 1 //重新从第 1 页开始
+				 			  }
+						});
+				  });		
+				}
+	
+	</script>
+  </body>
+</html>

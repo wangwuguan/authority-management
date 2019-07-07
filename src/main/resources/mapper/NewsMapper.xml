@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.NewsDao">
+
+	<!-- 查询所有新闻 -->
+	<select id="selectAllNews" resultType="map">
+		select * from news where 1=1
+		<if test="nid!=null and nid!=''"> and nid =#{nid}</if>
+		<if test="ntitle!=null and ntitle!=''"> and ntitle =#{ntitle}</if>
+		<if test="starttime!=null and starttime !=''"> and ntime >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and ntime &lt;= #{endtime} </if>
+		limit #{page},#{limit}
+	</select>
+	<select id="getNewsCount" resultType="Integer">
+		select count(*) from news where 1=1
+		<if test="nid!=null and nid!=''"> and nid =#{nid}</if>
+		<if test="ntitle!=null and ntitle!=''"> and ntitle =#{ntitle}</if>
+		<if test="starttime!=null and starttime !=''"> and ntime >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and ntime &lt;= #{endtime} </if>
+	</select>
+	
+	<!-- 查询所有新闻记录 -->
+	<select id="selectNewsRecords" resultType="map">
+		select * from news_records where 1=1
+		<if test="nid!=null and nid!=''"> and nid =#{nid}</if>
+		<if test="ntitle!=null and ntitle!=''"> and ntitle =#{ntitle}</if>
+		<if test="starttime!=null and starttime !=''"> and ntime >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and ntime &lt;= #{endtime} </if>
+		limit #{page},#{limit}
+	</select>
+	<select id="getNewsRecordsCount" resultType="Integer">
+		select count(*) from news_records where 1=1
+		<if test="nid!=null and nid!=''"> and nid =#{nid}</if>
+		<if test="ntitle!=null and ntitle!=''"> and ntitle =#{ntitle}</if>
+		<if test="starttime!=null and starttime !=''"> and ntime >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and ntime &lt;= #{endtime} </if>
+	</select>
+	
+	<!-- 添加新闻 -->
+	<insert id="addNews">
+		insert into news(ntitle,ncontent,nsrc,ntime) values(#{ntitle},#{ncontent},#{nsrc},now())
+	</insert>
+	
+	<!-- 添加新闻纪录 -->
+	<insert id="addNewsRecords">
+		insert into news_records(ntitle,ncontent,nsrc,ntime) values(#{ntitle},#{ncontent},#{nsrc},now())
+	</insert>
+	
+	<!-- 发布新闻 -->
+	<update id="updateNewsState">
+		update news set nstate = 1,ntime2 = now() where nid = #{nid}
+	</update>
+	
+	<!-- 发布新闻时：修改新闻记录-->
+	<update id="updateNewsRecordState">
+		update news_records set nstate = 1,ntime2 = now() where nid = #{nid}
+	</update>
+	
+	<!-- 删除新闻 -->
+	<delete id="delNews">
+		delete from news where nid = #{nid}
+	</delete>
+	
+	<!-- 删除新闻时：修改新闻记录-->
+	<update id="updateNewsRecordStateTwo">
+		update news_records set nstate = 2,ntime3 = now() where nid = #{nid}
+	</update>
+	
+	<!-- 修改新闻信息 -->
+	<update id="updateNews">
+		update news 
+		<set>
+			<if test="ntitle!=null and ntitle!=''">ntitle = #{ntitle},</if>
+			<if test="ncontent!=null and ncontent!=''">ncontent = #{ncontent},</if>
+			<if test="nsrc!=null and nsrc!=''">nsrc = #{nsrc}</if>
+		</set>
+		where nid = #{nid}
+	</update>
+
+</mapper>

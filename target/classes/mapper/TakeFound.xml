@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.TakeFoundDao">
+	<!-- 插入提取公积金记录 -->
+	<insert id="addTake">
+		insert into takefund_record(perid,takefundtype,takefundmoney,takefundreason,taketime,takebankno) values(#{perid},#{takefundtype},#{takefundmoney},#{takefundreason},now(),#{takebankno})
+	</insert>
+	<!-- 提取后 余额相应减少 -->
+	<update id="updatePmoney">
+		update person set pmoney=pmoney-#{takefundmoney} where pno=#{pno} 
+	</update>
+	<!-- 插入约定提取 -->
+	<insert id="addAgreed">
+		insert into takefund_record(perid,takefundtype,taketime,agreedtime,repaymoney,agreedcount,loantype) values(#{perid},'约定提取',now(),#{agreedtime},#{repaymoney},#{agreedcount},#{loantype})
+	</insert>
+</mapper>

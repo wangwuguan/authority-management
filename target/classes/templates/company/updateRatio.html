@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>main.html</title>
+    <head th:include="comm::header"> 
+  </head> 
+  <style>
+  	.aa{
+		width: 100px;
+		height: 28px;
+  	}
+  </style>
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="单位编号" name="cno" id="cno">
+          <input class="layui-input" placeholder="单位名称" name="cname" id="cname">
+          
+          <a class="layui-btn" id="search" onclick="searchUser()" ><i class="layui-icon">&#xe615;</i></a>
+        </form>
+      </div>
+    
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+
+<!--编辑模态框-->
+<div id="motaikuang" style="display: none;">
+    <div class="x-body">
+        <form  class="layui-form" lay-filter="boardFilter">
+        <input type="hidden" name="cid"/>
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label aa" >
+              	<span class="x-red">*</span>单位缴存比例
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text"  name="cdeposit"  
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+           <label for="uaddress" class="layui-form-label aa">
+           		<span class="x-red">*</span>个人缴存比例
+           	</label>
+             <div class="layui-input-inline">
+                  <input type="text"  name="cdeposits" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave2" lay-filter="update" lay-submit="" type="submit" value="确认修改" />
+          </div>
+      </form>
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改比例</a>
+</script>
+               
+ 
+<script type="text/javascript" th:inline="none">
+	layui.use(['table','form','element'], function(){
+	  var table = layui.table,
+	  form=layui.form,
+	  element = layui.element;
+	  
+	  //数据获取
+	  table.render({
+	    elem: '#test'
+	    ,url:'/company/selectCompany'
+	    ,title: '用户数据表'
+	    ,cols: [[
+				 {type:'numbers',title:'编号', fixed:'left'},
+	             {field:'cno', title: '公司公积金账号' },
+	             {field:'cname', title: '公司名称' },
+	             {field:'renshu', title: '公司缴存人数' },
+	             {field:'cdate', title: '开户日期' },
+	             {field:'cdeposit', title: '单位缴存比例' },
+	             {field:'cdeposits', title: '个人缴存比例' },
+	             {field:'cbalanc', title: '单位账户余额' },
+	             {fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
+	          ]]
+	    ,page: true
+	  });
+	  
+	//监听行工具事件
+	  table.on('tool(test)', function(obj){
+	    var data = obj.data;
+	    if(obj.event === 'edit'){
+	    	//编辑事件
+	    	/* layer.alert('编辑行：<br>'+ JSON.stringify(data)); */
+	    	$("[name='cid']").val(data.cid);
+	    	$("[name='cdeposit']").val(data.cdeposit);//向模态框中赋值
+	    	$("[name='cdeposits']").val(data.cdeposits);
+	    	//刷新表单数据 使其默认值有效   下拉框
+	    	layui.form.render('select','boardFilter');
+	    	//打开模态框
+	    	layer.open({
+                type:1,//类型
+                area:['400px','400px'],//定义宽和高
+                title:'查看详细信息',//题目
+                shadeClose:false,//点击遮罩层关闭
+                content: $('#motaikuang')//打开的内容
+            });	
+	    }
+	  });
+	
+	  //监听修改提交
+	  form.on('submit(update)', function(data){ 
+		    // * 整合表单数据
+		    var formData = data.field;
+		    //alert(JSON.stringify(formData));
+		    //发异步，把数据提交
+		    $.ajax({
+        	url:"/ratio/updateRatio",
+        	data:formData,
+        	type:"post",
+        	success:function(datas){
+        		if (datas=="success") {
+        			layer.close(layer.index);
+                  table.reload("test");
+                  layer.alert("修改成功", {icon: 6});	
+        		}
+        	},
+        	error:function(){
+        		layer.alert("添加错误", {icon: 6});
+        	}
+        });
+        //必不可少
+        return false;
+      });
+    
+	});
+	
+	
+	//模糊查询刷新页面
+	function searchUser(){
+	  layui.use('table', function(){
+		  var table = layui.table;
+		  var cno = $("#cno").val();
+		  var cname = $("#cname").val();
+		  table.reload('test', {
+			  url:'/company/selectCompany'
+			 /*  ,method:"post" */
+			  ,where: {
+				  cno:cno,
+				  cname:cname
+			  } //设定异步数据接口的额外参数
+			  ,page: {
+	  			 	curr: 1 //重新从第 1 页开始
+	 			  }
+			});
+	  });		
+	}
+	
+	 /* //数据获取
+	  table.render({
+	    elem: '#test'
+	    ,url:'/ratio/selectPersonPid'
+	    ,title: '用户数据表'
+	    ,cols: [[
+	      {field:'pno', title: '公积金账号' }
+	      ,{field:'pname', title: '姓名' }
+	      ,{field:'psex', title: '性别' }
+	      ,{field:'pbasenum', title: '缴存基数' }
+	      ,{field:'cdeposits', title: '个人缴纳比率' }
+	      ,{field:'cdeposit', title: '公司缴纳比率' }
+	      ,{field:'pmoney', title: '公积金余额' }
+	      ,{field:'premitdate', title: '最后缴纳时间' }
+	      ,{field:'pstateid', title: '状态' }
+	      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
+	    ]]
+	    ,page: true
+	  }); */
+</script>
+</body>
+</html>

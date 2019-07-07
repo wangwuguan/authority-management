@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>main.html</title>
+    <head th:include="comm::header">    
+  </head> 
+<body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <xblock>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','/menu/toAddMenuOne',400,200)"><i class="layui-icon">
+        </i>添加一级菜单</button>
+  		<span class="x-right" idstyle="line-height:40px">管理人员登录信息表</span>
+      </xblock> 
+      <table class="layui-hide" id="test" lay-filter="test"></table>
+   </div>
+
+<!-- 添加二级菜单模态框 -->   
+   <div id="addMenuTwo" style="display: none;">
+   		<div class="x-body">
+        <form class="layui-form">
+          <input type="hidden" name="mfather" />
+          <div class="layui-form-item">
+              <label for="mname" class="layui-form-label">
+              	<span class="x-red">*</span>菜单名称
+              </label>
+              <div class="layui-input-inline">
+                  <input id="mname" name="mname" lay-verify="username|menuName" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="murl" class="layui-form-label">
+              	<span class="x-red">*</span>访问路径
+              </label>
+              <div class="layui-input-inline">
+                  <input name="murl" lay-verify="required" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave" lay-filter="add" lay-submit="" value="增加" type="submit" />
+          </div>
+      </form>
+    </div>
+   </div>  
+   
+<!-- 修改菜单信息 -->   
+   <div id="editMenu" style="display: none;">
+   		<div class="x-body">
+        <form class="layui-form">
+          <input type="hidden" id="mid2" name="mid" />
+          <div class="layui-form-item">
+              <label for="mname" class="layui-form-label">
+              	<span class="x-red">*</span>菜单名称
+              </label>
+              <div class="layui-input-inline">
+                  <input id="mname2" name="mname" lay-verify="username|menuName2" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="mfather" class="layui-form-label">
+              	<span class="x-red">*</span>父级菜单编号
+              </label>
+              <div class="layui-input-inline">
+                  <input name="mfather" lay-verify="required" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="murl" class="layui-form-label">
+              	<span class="x-red">*</span>访问路径
+              </label>
+              <div class="layui-input-inline">
+                  <input name="murl" lay-verify="required" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave" lay-filter="update" lay-submit="" value="修改" type="submit" />
+          </div>
+      </form>
+    </div>
+   </div>   
+
+ <script type="text/javascript" th:inline="none">	
+ 	/*加载treeGrid组件*/
+	var editObj=null,ptable=null,treeGrid=null,tableId='test',layer=null;
+    layui.config({
+        base: '../extends/'
+    }).extend({
+        treeGrid:'treeGrid'
+    }).use(['jquery','treeGrid','layer','form'], function(){
+        var $ = layui.jquery,
+        form = layui.form;
+        treeGrid = layui.treeGrid;//很重要
+        layer=layui.layer;
+        ptable=treeGrid.render({
+            id:tableId
+            ,elem: '#test'
+            ,url:'/menu/selectMenus'
+            ,idField:'mid'//必須字段
+            ,treeId:'mid'//树形id字段名称
+            ,treeUpId:'mfather'//树形父id字段名称
+            ,treeShowName:'mname'//以树形式显示的字段
+            ,isFilter:false
+            ,iconOpen:false//是否显示图标【默认显示】
+            ,isOpenDefault:false//节点默认是展开还是折叠【默认展开】
+            ,method:'post'
+            ,isPage:false
+            ,cols: [[
+                {type:'numbers', title: '编号',fixed: 'left'}
+                ,{field:'mid' , title: '菜单编号'}
+                ,{field:'mname' , title: '菜单名称'}
+                ,{field:'mfather', title: '父级菜单编号'}
+                ,{field:'murl', title: '访问路径'}
+                ,{fixed: 'right', title: '操作', width: 320, align:'center'
+                    ,templet: function(d){
+                        var html='';
+                        var editBtn='<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>';
+                        var delBtn='<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>';
+                        if (d.mfather == 0) {
+                        	var addBtn='<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="add"><i class="layui-icon">&#xe61f;</i>添加子菜单</a>';
+                        	return addBtn+editBtn+delBtn;
+						} 
+             			return editBtn+delBtn;
+                    }
+                }
+            ]]
+        });
+	    
+        //监听行事件
+        treeGrid.on('tool('+tableId+')',function (obj) {
+            if(obj.event === 'del'){//删除行
+                //获取本行数据
+            	var data = obj.data;
+                layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除，此操作不能撤销！", {icon: 3, title:'提示'},
+                        function(index){//确定回调
+                	        $.ajax({
+                	        	url:"/menu/delMenu",
+                	        	data:data,
+                	        	async:false,
+                	        	type:"post",
+                	        	success:function(data) {
+                	        		if (data == "success") {
+                	        			layer.msg("删除成功");
+                	        			obj.del(); //页面上删除
+									}	
+                	        	},
+                	        	error:function(data) {
+                	        		layer.msg("错误");
+                	        	}
+                	        }); 
+                        });
+            	del(obj);
+            } else if (obj.event === 'add') {//添加行
+            	//获取本行数据
+            	var data = obj.data;
+            	$("[name='mfather']").val(data.mid);
+            	layer.open({
+                    type:1,//类型
+                    area:['400px','300px'],//定义宽和高
+                    title:'添加二级菜单',//题目
+                    shadeClose:false,//点击遮罩层关闭
+                    content: $('#addMenuTwo')//打开的内容
+                });	
+            } else if (obj.event === 'edit') {
+            	//获取本行数据
+            	var data = obj.data;
+            	$("[name='mid']").val(data.mid);
+            	$("[name='mname']").val(data.mname);
+            	$("[name='murl']").val(data.murl);
+            	$("[name='mfather']").val(data.mfather);
+            	layer.open({
+                    type:1,//类型
+                    area:['500px','400px'],//定义宽和高
+                    title:'修改菜单信息',//题目
+                    shadeClose:false,//点击遮罩层关闭
+                    content: $('#editMenu')//打开的内容
+                });	
+            }
+        });
+        
+     //监听提交
+     form.on('submit(add)', function(data){ 
+      	/* layer.alert(JSON.stringify(data)); */
+  	    // * 整合表单数据
+  	    var formData = data.field;
+  	    //发异步，把数据提交
+  	    $.ajax({
+          	url:"/menu/addMenu",
+          	data:formData,
+          	type:"post",
+          	success:function(datas){
+          		layer.close(layer.index);
+          		reload();
+          		if (datas=="success") {
+          			layer.msg("添加成功");
+           		}
+          	},
+          	error:function(){
+          		layer.msg("添加错误");
+          	}
+          });
+          //必不可少
+          return false;
+        });
+     
+     //监听提交
+     form.on('submit(update)', function(data){ 
+      	/* layer.alert(JSON.stringify(data));  */
+  	    // * 整合表单数据
+  	    var formData = data.field;
+  	    //发异步，把数据提交
+  	    $.ajax({
+          	url:"/menu/updateMenu",
+          	data:formData,
+          	type:"post",
+          	success:function(datas){
+          		layer.close(layer.index);
+          		reload();
+          		if (datas=="success") {
+          			layer.msg("修改成功");
+          		}
+          	},
+          	error:function(){
+          		layer.msg("添加错误");
+          	}
+          });
+          //必不可少
+          return false;
+        });
+    });
+    
+    layui.use(['form','layer'], function(){
+  	  var form = layui.form
+  	  ,layer = layui.layer;
+  	  
+  	  //自定义验证规则
+	  form.verify({
+		  //菜单名唯一性验证
+          menuName2: function(value,item){ //value：表单的值、item：表单的DOM对象
+          	//ajax同步请求
+          	var checkResult = "";
+              $.ajax({
+              	url: "/menu/isExistMenuName",
+                  type: "post",
+                  cache:false,
+                  data:{
+                      mname: $("#mname2").val(),
+                      mid: $("#mid2").val()
+                  },
+                  async:false,
+                  success: function (data) {
+                      if (data=="fail") {
+                      	checkResult = "菜单名已存在" ;
+                      } 
+                  }
+
+              });
+              return checkResult;
+          }
+        });
+  	   
+    });
+    
+    //刷新表格
+    function reload() {
+        treeGrid.reload(tableId,{
+            page:{
+                curr:1
+            }
+        });
+    }
+    
+</script>
+</body>
+</html>

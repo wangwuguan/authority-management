@@ -1,0 +1,651 @@
+<!DOCTYPE html >
+<html>
+  <head>
+    <title></title>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    
+     <style>
+   		a{
+   			border:1px solid #000;
+			border-radius:50px;
+			margin-left:150px
+   		}
+   		#number1{
+   			background:yellow;
+   		}
+    </style>  
+    <head th:include="comm::header">  
+  </head>
+  <body>
+  				<div>
+  						<h1 align="center">个人抵押贷</h1>
+									<div style="font-size:25px;background:#7cf37c">
+											<a id="number1" >1</a><span style="color:white">贷款基本资料</span>
+											<a id="number2">2</a><span id="info2">共同借款人</span>
+											<a id="number3">3</a><span id="info3">购房信息</span>
+											<a id="number4">4</a><span id="info4">抵押信息</span>
+									</div>
+
+							  <div class="layui-progress  " lay-filter="demo" >
+							  			<div class="layui-progress-bar layui-bg-blue"  lay-percent="25%"></div>
+								</div>
+								<div class="x-body">
+								<form  id="form" lay-filter="formTest" class="layui-form" action="addLoan" method="post" >
+									<!--第一个页面  -->
+									<div class="layui-form-item"  id="add1">
+										<h2>个人信息</h2>
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>个人账号:
+							              </label>
+											 <div class="layui-input-inline">
+							                <input  onafterpaste="this.value=this.value.replace(/\D/g,'')"  type="text"  onblur="getPerson(1)" id="personno" name="personno" required  lay-verify="required|number" placeholder="请输入账号" autocomplete="off" class="layui-input">
+							              </div>
+										
+											<label  class="layui-form-label">
+							                 姓名:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pname" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                性别:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="psex" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							               个人电话:
+							              </label>
+								              <div class="layui-input-inline">
+											<input disabled name="pphone" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+							
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  证件类型:
+							              </label>
+							              <div class="layui-input-inline">
+											<input disabled name="pcertificate" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                身份证号码:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pnumber" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                  婚姻状况:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pmarital" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                  职业:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pmarital" autocomplete="off" class="layui-input">
+										</div>
+										</div>
+							
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  邮箱:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pmail" autocomplete="off" class="layui-input">
+										</div>
+										<label  class="layui-form-label">
+							                  学历:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pdegree" autocomplete="off" class="layui-input">
+										</div>
+										<label  class="layui-form-label">
+							                  单位名称:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="cname" autocomplete="off" class="layui-input">
+										</div>
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>家庭住址:
+							              </label>
+								              <div class="layui-input-inline">
+													<input disabled name="paddress" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+							
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>月收入(元): 
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="lsalay" required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>存款(元):
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="ldeposit" required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										</div>
+							
+										<h2>缴存信息</h2>
+							
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  缴存状态:
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="sname" disabled  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										<label  class="layui-form-label">
+							                 个人余额(元): 
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" disabled name="pmoney" required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                缴至时间: 
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="premitdate"  disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										</div>
+										
+										<h2>贷款信息</h2>
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>贷款金额(元):
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="lmoney" required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										<label class="layui-form-label">
+							                  <span class="x-red">*</span>贷款期数(月):
+							              </label>
+							              <div class="layui-input-inline" >
+							            <select name="lperiods"  id="lperiods"    lay-filter="lperiods" >
+							            </select>
+							          </div>
+							              
+							              
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>贷款利率(%):
+							              </label>
+							              <div class="layui-input-inline">
+										 	<input  type="text" readonly="true"  name="lrate" required  lay-verify="required" autocomplete="off" class="layui-input">
+											</div>
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>委托银行:
+							              </label>
+							              <div class="layui-input-inline">
+							            <select name="lction"  id="lction">
+							            		<option>--请选择--</option>
+							            </select>
+							          </div>
+										</div>
+										
+										<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>还款方式:
+							              </label>
+							             <div class="layui-input-inline">
+							            <select name="lrefundtype">
+							              <option>等额本金</option>
+							              <option>等额本息</option>
+							            </select>
+							          </div>
+							
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>还款日:
+							              </label>
+							              <div class="layui-input-inline">
+										<input  value="放款日开始"   lay-verify="required" autocomplete="off" class="layui-input" disabled>
+										</div>
+										</div>
+							
+										<h2>还款信息</h2>
+									<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>开户银行:
+							              </label>
+							              <div class="layui-input-inline">
+							            <select name="lopenbank" id="lopenbank">
+							            	<option>--请选择--</option>
+							            </select>
+							          </div>
+							          
+										<label for="lpayment" class="layui-form-label">
+							                  <span class="x-red">*</span>还款账户名:
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="lpayment" required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										<label for="cardno" class="layui-form-label">
+							                  <span class="x-red">*</span>还款账号:
+							              </label>
+							              <div class="layui-input-inline">
+										<input  type="text" name="lcardno" required  lay-verify="required" autocomplete="off" class="layui-input">
+										</div>
+										</div>
+									</div>
+									
+								<!--第二个页面 -->
+								<div class="layui-form-item" id="add2">
+									<h2>共同贷款人</h2>
+									
+									<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  个人账号:
+							              </label>
+											 <div class="layui-input-inline">
+							                <input  type="text"  onblur="getPerson(2)" id="lunderwriterno" name="lunderwriterno"  lay-verify="number" placeholder="请输入账号" autocomplete="off" class="layui-input">
+							              </div>
+										
+											<label  class="layui-form-label">
+							                  姓名:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pname2" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label  class="layui-form-label">
+							                  个人电话:
+							              </label>
+								              <div class="layui-input-inline">
+											<input disabled name="pphone2" autocomplete="off" class="layui-input">
+											</div>
+											
+										<label  class="layui-form-label">
+							                  单位账号:
+							              </label>
+											 <div class="layui-input-inline">
+							               <input disabled name="cno2" autocomplete="off" class="layui-input">
+							              </div>
+							             </div> 
+										<div class="layui-form-item">
+											<label for="personno2" class="layui-form-label">
+							                  单位名称:
+							              </label>
+							              <div class="layui-input-inline">
+											<input disabled name="cname2" autocomplete="off" class="layui-input">
+										</div>
+										
+											<label for="personno2" class="layui-form-label">
+							                  单位电话:
+							              </label>
+							              <div class="layui-input-inline">
+											<input disabled name="cphone2" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label for="personno2" class="layui-form-label">
+							                  证件类型:
+							              </label>
+							              <div class="layui-input-inline">
+											<input disabled name="pcertificate2" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label for="personno2" class="layui-form-label">
+							                  身份证号码:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pnumber2" autocomplete="off" class="layui-input">
+										</div>
+										</div>
+										<div class="layui-form-item">
+												<label for="personno2" class="layui-form-label">
+							                  缴存状态:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="sname2" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label for="personno2" class="layui-form-label">
+							                  账户余额:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="pmoney2" autocomplete="off" class="layui-input">
+										</div>
+										
+										<label for="personno2" class="layui-form-label">
+							                  缴至年月:
+							              </label>
+							              <div class="layui-input-inline">
+										<input disabled name="premitdate2" autocomplete="off" class="layui-input">
+										</div>
+										</div>
+										
+								</div>
+								<div class="layui-form-item" id="add3">
+									<h2>拟购房信息</h2>
+									
+									<div class="layui-form-item">
+										<label  class="layui-form-label">
+							                  <span class="x-red">*</span>房屋类型:
+							              </label>
+							              <div class="layui-input-inline" style="width:300px">
+							            <select name="lhousetype">
+							            <option>请选择</option>
+							              <option>商品房</option>
+							              <option>花园式住宅</option>
+							              <option>平价房</option>
+							              <option>经济适用房</option>
+							            </select>
+							          </div>
+							          
+							          <label class="layui-form-label">
+							                  <span class="x-red">*</span>建筑地址:
+							              </label>
+							              <div class="layui-input-inline" style="width:90px" >
+							            <select id="address1"  onchange="getLaddress()">
+							              <option >郑州市</option>
+							            </select>
+							            </div>
+							           
+							              <div class="layui-input-inline" style="width:90px">
+							             <select id="address2" onchange="getLaddress()">
+							                <option >请选择</option>
+							              <option >二七区</option>
+							              <option >管城区</option>
+							              <option>金水区</option>		
+							            </select>
+							            </div>
+							             <div class="layui-input-inline" style="width:100px">
+							             <input  type="text"  id="address3"  onblur="getLaddress()" required  lay-verify="required" autocomplete="off" class="layui-input" >
+							             <input type="hidden"  id="laddress"name="laddress">
+							             </div>
+							         
+							            <label class="layui-form-label">
+							                  <span class="x-red">*</span>建筑面积:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lallarea"   required  lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+									</div>
+									
+									<div class="layui-form-item">
+										 <label class="layui-form-label">
+							                  <span class="x-red">*</span>证件号码:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lhouseno"   required  lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+							             
+							              <label class="layui-form-label">
+							                  <span class="x-red">*</span>购房人:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lbuyname"   required  lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+							             
+							                <label class="layui-form-label">
+							                  <span class="x-red">*</span>银行账户:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lbuycardno"  required lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+							             
+							             
+									</div>
+									
+									<div class="layui-form-item">
+										<label class="layui-form-label">
+							                  <span class="x-red">*</span>房屋总价:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lhouseprice"   required  lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+							             
+										<label class="layui-form-label">
+							                  <span class="x-red">*</span>首付:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lfirstpay"   required lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+							             
+							             <label class="layui-form-label">
+							                  <span class="x-red">*</span>面积单价:
+							              </label>
+							                <div class="layui-input-inline"  style="width:300px">
+							             <input  type="text"  name="lareaprice"   required lay-verify="required" autocomplete="off" class="layui-input">
+							             </div>
+									</div>
+									   
+								</div>
+									
+								<div class="layui-form-item" id="add4">
+									<div class="layui-form-item" >
+										<h2>抵押信息</h2>
+											 <label class="layui-form-label">
+								                  <span class="x-red">*</span>抵押类型:
+								              </label>
+								                <div class="layui-input-inline"  style="width:300px">
+								             <input  type="text"  name="lcollateraltype" value="房屋抵押" readonly="true"  required lay-verify="required" autocomplete="off" class="layui-input">
+								             </div>
+								             
+								             <label class="layui-form-label">
+								                  <span class="x-red">*</span>抵押人姓名:
+								              </label>
+								                <div class="layui-input-inline"  style="width:300px">
+								             <input  type="text"  name="lcollateralname"  required lay-verify="required" autocomplete="off" class="layui-input">
+								             </div>
+								             
+								               <label class="layui-form-label">
+								                  <span class="x-red">*</span>身份证号码:
+								              </label>
+								                <div class="layui-input-inline"  style="width:300px">
+								             <input  type="text"  name="lcollateralnumber"  required lay-verify="required" autocomplete="off" class="layui-input">
+								             </div>
+								        </div>
+								       <div class="layui-form-item">
+								               <label class="layui-form-label">
+								                  <span class="x-red">*</span>抵押物地址:
+								              </label>
+								                <div class="layui-input-inline"  style="width:300px">
+								             <input  type="text"  name="lcollateraladdress"  required lay-verify="required" autocomplete="off" class="layui-input">
+								             </div>
+								             
+								              <label class="layui-form-label">
+								                  <span class="x-red">*</span>抵押物状态:
+								              </label>
+								                 <div class="layui-input-inline"  style="width:300px">
+							            				<select name="lcollateralstate" >
+											              <option >正常</option>
+											              <option>抵押中</option>
+											            </select>
+									            </div>
+									            
+									             <label class="layui-form-label">
+								                  <span class="x-red">*</span>抵押物金额:
+								              </label>
+								                <div class="layui-input-inline"  style="width:300px">
+								             <input  type="text"  name="lcollateralacount"  required lay-verify="required" autocomplete="off" class="layui-input">
+								             </div>
+								      </div>
+								</div>
+								
+								<div style="text-align:center">
+									<a class="layui-btn"  id="back" >上一步</a>
+									<a class="layui-btn" id="go">下一步</a>
+									<button class="layui-btn"  id="submit" >提交</button>
+								</div>
+								</form>
+		</div>
+	</div>
+		<script>
+		//获取房屋地址拼接
+		function getLaddress(){
+			var address1="郑州";
+			var address2=$("#address2").val();
+			var address3=$("#address3").val();
+			$("#laddress").val(address1+address2+address3);
+		}
+		//向后台查询具体客户数据返回到页面
+		function getPerson(check){
+			
+			layui.use(['form','element','jquery'],function(){
+				var form=layui.form,
+				$=layui.jquery;
+				if(check==1){
+						var personno=$("#personno").val();
+						$.ajax({
+							url:"/loan/getPerson",
+							data:{'personno':personno},
+							success:function(data){
+								form.val("formTest",{
+									pname:data.pname,
+									psex:data.psex,
+									pphone:data.pphone,
+									pmail:data.pmail,
+									pnumber:data.pnumber,
+									pmarital:data.pmarital,
+									pdegree:data.pdegree,
+									pcertificate:data.pcertificate,
+									paddress:data.paddress,
+									pmoney:data.pmoney,
+									cname:data.cname,
+									sname:data.sname,
+									premitdate:data.premitdate
+								});
+							}
+						});
+				}else if(check==2){
+							var personno=$("#lunderwriterno").val();
+							$.ajax({
+								url:"/loan/getPerson",
+								data:{'personno':personno},
+								success:function(data){
+									form.val("formTest",{
+										pname2:data.pname,
+										pphone2:data.pphone,
+										pnumber2:data.pnumber,
+										pcertificate2:data.pcertificate,
+										cno2:data.cno,
+										cname2:data.cname,
+										cphone2:data.cphone,
+										sname2:data.sname,
+										pmoney2:data.pmoney,
+										premitdate2:data.premitdate
+									});
+								}
+							});
+				}
+			});
+		}
+	
+		
+		//进度条操作
+		layui.use(['form','element','jquery'],function(){
+		var form =layui.form,
+		element=layui.element,
+		$=layui.jquery;
+		var count =25;
+		var pag=1;
+		$("#back").hide();
+		$("#add2").hide();
+		$("#add3").hide();
+		$("#add4").hide();
+		$("#submit").hide();
+		
+
+		//下一步操作
+		$(document).on('click','#go',function(){
+			$("#add"+pag).hide();
+			pag++;
+			$("#add"+pag).show();
+			$("#info"+pag).css("color","white");
+			$("#number"+pag).css("background","yellow");
+			count=count+25;
+			$("#back").show();
+			if(count==100){
+				$("#go").hide();
+				$("#submit").show();
+			}
+		element.progress('demo', count+"%");});
+		
+		//上一步操作
+		$(document).on('click','#back',function(){
+			$("#add"+pag).hide();
+			$("#number"+pag).css("background","#7cf37c");
+			$("#info"+pag).css("color","black");
+			pag--;
+			$("#add"+pag).show();
+
+			count=count-25;
+			
+			if(count<100){
+				$("#go").show();
+				$("#submit").hide();
+			}
+			if(count==25)
+				$("#back").hide();
+		element.progress('demo', count+"%");
+		}); 
+		
+	//利率计算
+		form.on('select(lperiods)', function(data){
+			if($("#lperiods").val().split("(")[0]>=60){
+				form.val("formTest",{
+					lrate:3.25
+				});
+			}else{
+					form.val("formTest",{
+						lrate:2.75
+				});
+			}
+		});
+	
+	
+
+		});
+		
+		//贷款期数下拉框
+		  $.ajax({
+		  url:"/loan/selectPeriods",
+		  type:"post",
+		  dataType:"json",
+		  async:false,
+		  success:function(data){
+			 var list = "";
+			 for (var i = 0; i < data.length; i++) {
+				list+="<option >"+data[i].lperiods+"</option>";
+			 }
+			 //拼接到下拉框中
+			 $("#lperiods").append(list);
+		  },
+		  error:function(data){
+		  }
+	  });
+		
+		
+		//银行下拉框
+		  $.ajax({
+		  url:"/loan/selectBank",
+		  type:"post",
+		  dataType:"json",
+		  async:false,
+		  success:function(data){
+			 var list = "";
+			 for (var i = 0; i < data.length; i++) {
+				list+="<option >"+data[i].bname+"</option>";
+			 }
+			 //拼接到下拉框中
+			 $("#lction").append(list);
+			 $("#lopenbank").append(list);
+		  },
+		  error:function(data){
+		  }
+	  });
+	</script>
+  </body>
+</html>

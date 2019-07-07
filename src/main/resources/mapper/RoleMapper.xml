@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.RoleDao">
+	<!-- 查询角色信息 (不分页)-->
+	<select id="selectRoleAll" resultType="map">
+		select * from role where rid != 1
+	</select>
+	
+	<!-- 查询角色信息 -->
+	<select id="selectRole" resultType="map">
+		select * from role,role_state where role.rstate = role_state.rsid and rid != 1
+		<if test="rid!=null and rid!=''"> and rid=#{rid}</if>
+		<if test="rname!=null and rname!=''"> and rname like concat("%",#{rname},"%")</if>
+		order by rid desc
+		limit #{page},#{limit}
+	</select>
+	<select id="getCount" resultType="Integer">
+		select count(*) from role,role_state where role.rstate = role_state.rsid and rid != 1
+		<if test="rid!=null and rid!=''"> and rid=#{rid}</if>
+		<if test="rname!=null and rname!=''"> and rname like concat("%",#{rname},"%")</if>
+	</select>
+	
+	<!-- 查询菜单的id集合 -->
+	<select id="selectMenuIds" resultType="Integer">
+		select mid from menu
+	</select>
+	
+	<!-- 查询角色表中的最大id值 -->
+	<select id="selectMaxRoleId" resultType="Integer">
+		select rid from role order by rid desc limit 1
+	</select>
+	
+	<!-- 通过二级菜单查询出他们的父级菜单 -->
+	<select id="selectOneByTwos" resultType="Integer">
+		 select mfather from menu where mid in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<!-- 添加角色 -->
+	<insert id="addRole" >
+		insert into role(rname,rdesc,rtime) values(#{rname},#{rdesc},now())
+	</insert>
+	
+	<!-- 修改角色信息 -->
+	<update id="updateRole">
+		update role 
+		<set>
+			<if test="rname!=null and rname!=''"> rname = #{rname},</if>
+			<if test="rdesc!=null and rdesc!=''"> rdesc = #{rdesc},</if>
+		</set>
+		where rid = #{rid}
+	</update>
+
+	<!-- 添加新角色在角色-菜单表中的对应值 -->
+	<insert id="addRoleMenu">
+		insert into role_menu(rid,mid,rmstate) values 
+		<foreach item="item" index="index" collection="mids" separator=",">
+			(#{rid},#{item},0)
+		</foreach>
+	</insert>
+	
+	<!-- 修改角色状态 -->
+	<update id="updateRoleState">
+		update role
+		<set>
+			<choose>
+				<when test="rstate==1||rstate==null"> rstate=0</when>
+				<otherwise>rstate=1</otherwise>
+			</choose>
+		</set>
+		where rid = #{rid} and rid != 1
+	</update>
+	
+	<!-- 添加角色菜单权限 -->
+	<update id="accreditRoleT">
+		update role_menu set rmstate = 1 where mid in
+		<foreach item="item" index="index" collection="mids" open="(" separator="," close=")"  >
+			#{item}
+		</foreach>
+		 and rid = #{rid}
+	</update>
+
+	<!-- 删除角色菜单权限 -->
+	<update id="accreditRoleF" parameterType="map">	
+		update role_menu set rmstate = 0 where mid not in 
+		<foreach item="item" index="index" collection="mids" open="(" separator="," close=")" >
+			#{item} 
+		</foreach>
+		 and rid = #{rid}
+	</update>
+	
+	<!-- 查询角色名称是否存在 -->
+	<select id="isExistRoleName" resultType="role">
+		select * from role where rname = #{rname}
+		<if test="rid!=null and rid!=''"> and rid != #{rid}</if>
+	</select>
+</mapper>

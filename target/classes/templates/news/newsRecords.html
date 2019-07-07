@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>新闻展示</title>
+    <head th:include="comm::header">    
+  </head> 
+<body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="http://www.baidu.com">首页</a>
+        <a href="javascript:;">权限管理</a>
+        <a>
+          <cite>账户管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="新闻编号" name="nid" id="nid">
+          <input class="layui-input" placeholder="新闻标题" name="ntitle" id="ntitle">
+          <div class="layui-input-inline">
+			<input readonly id="starttime" placeholder="开始日期（新闻创建）" class="layui-input" name="starttime">
+		  </div>
+		           到
+		  <div class="layui-input-inline" style="margin-right:15px;">
+		  	<input readonly id="endtime" placeholder="结束日期（新闻创建）" class="layui-input" name=" endtime">
+		  </div>
+          <a class="layui-btn" id="search" onclick="searchNews()" ><i class="layui-icon">&#xe615;</i></a>
+        </form>
+      </div>
+      <xblock>
+        <button class="layui-btn" onclick="x_admin_show('添加新闻','toAddNews',600,600)"><i class="layui-icon">
+        </i>添加新闻</button>
+  		<span class="x-right" idstyle="line-height:40px">郑州市住房公积金管理中心</span>
+      </xblock> 
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>	
+
+<script type="text/html" id="barDemo"> 
+
+</script>            
+
+<!-- 角色状态显示效果 -->    
+<script type="text/html" id="stateTpl">
+  {{#  if(d.nstate === 1){ }}
+    <span style="color:#FFB800;">已发布</span>
+  {{#  } else if(d.nstate === 2){ }}
+    <span style="color:#FF5722;">已删除</span>
+  {{#  } else { }}
+    <span style="color:#01AAED;">未发布</span>
+  {{#  } }}
+</script>
+
+<script type="text/javascript" th:inline="none">
+	layui.use(['table','form','element','laydate'], function(){
+	  var table = layui.table,
+	  form = layui.form,
+	  laydate = layui.laydate,
+	  element = layui.element;
+	  
+	  //数据获取
+	  table.render({
+		/* id:"uid",//可以在这里设置需要隐藏的列的字段名，如果是要隐藏多列的话这样写 id:'id,sex' */
+	    elem: '#test'
+	    ,url:'/news/selectNewsRecords'
+	    ,title: '前台新闻'
+	    ,cols: [[
+		  {type: 'numbers', title: '编号',fixed: 'left'}
+	      ,{field:'nid', title: '新闻编号' ,sort: true}
+	      ,{field:'ntitle', title: '新闻标题'}
+	      ,{field:'nsrc', title: '新闻详情图', width: 230}
+	      ,{field:'ncontent', title: '新闻内容'}
+	      ,{field:'ntime', title: '新闻创建时间'}
+	      ,{field:'ntime2', title: '新闻发布时间'}
+	      ,{field:'ntime3', title: '新闻删除时间'}
+	      ,{field:'nstate', title: '新闻状态' , totalRow: true, templet: '#stateTpl' }
+	    ]]
+	    ,page: true
+	  });
+	  
+	//日期选择1
+	  var nowTime = new Date().valueOf();      
+	  var start = laydate.render({
+		        elem: '#starttime',
+		        type: 'date',
+		        max: nowTime,
+		        btns: ['clear', 'confirm'],
+		        done: function(value, date){
+		            endMax = end.config.max;
+		            end.config.min = date;
+		            end.config.min.month = date.month-1;
+		        }
+		    });
+	    //日期选择2
+	    var end = laydate.render({
+	        elem: '#endtime',
+	        type: 'date',
+	   		 max: nowTime,
+	        done: function(value, date){
+	            if($.trim(value) == ''){
+	                var curDate = new Date();
+	                date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+	            }
+	            start.config.max = date;
+	            start.config.max.month = date.month-1;
+	        }
+	    });
+	  
+	});
+	  
+	//模糊查询刷新页面
+	function searchNews(){
+	  layui.use('table', function(){
+		  var table = layui.table;
+		  var nid = $("#nid").val();
+		  var ntitle = $("#ntitle").val();
+		  var starttime = $("#starttime").val();
+		  var endtime = $("#endtime").val();
+		  table.reload('test', {
+			  url: '/news/selectAllNews'
+			  ,where: {
+				  nid:nid,
+				  ntitle:ntitle,
+				  starttime:starttime,
+				  endtime:endtime
+			  } //设定异步数据接口的额外参数
+			  ,page: {
+	  			 	curr: 1 //重新从第 1 页开始
+	 			  }
+			});
+	  });		
+	}
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>添加角色</title>	
+    <head th:include="comm::header">
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="rname" class="layui-form-label">
+              	<span class="x-red">*</span>角色名
+              </label>
+              <div class="layui-input-inline">
+                  <input id="rname" name="rname" lay-verify="username|roleName|required" 
+                  autocomplete="off" class="layui-input">
+                  <span id="tips" style="color: red;"></span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+           <label for="rdesc" class="layui-form-label">
+           		<span class="x-red">*</span>角色描述
+           	</label>
+             <div class="layui-input-inline">
+                  <input id="rdesc" name="rdesc" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave" lay-filter="add" lay-submit="" type="submit" value="增加" />
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+          var form = layui.form
+          ,layer = layui.layer;
+
+          //验证角色名是否存在(提示信息)
+          $("#rname").blur(function() {
+        	  //ajax同步请求
+              $.ajax({
+                  type: "post",
+                  url: "/role/isExistRoleName",
+                  cache:false,
+                  data:{
+                      rname: $("#rname").val(),
+                  },
+                  async:false,
+                  success: function (data) {
+                      if (data == "fail") {
+                    	  $("#tips").html("角色名已存在");
+                      } else {
+                    	  $("#tips").html("");
+                      }
+                  }
+
+              });
+          });
+          
+          //监听提交
+          form.on('submit(add)', function(data){ 
+        	// * 整合表单数据
+		    var formData = data.field;
+		    //发异步，把数据提交
+		    $.ajax({
+            	url:"/role/addRole",
+            	data:formData,
+            	type:"post",
+            	success:function(datas){
+            		if (datas=="success") {
+            			layer.alert("添加成功", {icon: 6,skin: 'layui-layer-molv' //样式类名
+            				,closeBtn: 0 },function () {
+                            //获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //刷新父页面
+	              			window.parent.location.reload();
+	              			//关闭当前frame
+                            parent.layer.close(index);
+                        });
+					}
+            	},
+            	error:function(){
+            		layer.msg("添加错误");
+            	}
+            });
+            //必不可少
+            return false;
+          });  
+        });
+       
+
+    </script>
+  </body>
+  </body>
+</html>
