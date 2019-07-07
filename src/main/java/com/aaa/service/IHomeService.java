@@ -1,12 +1,10 @@
 package com.aaa.service;
 
+import com.aaa.entity.Company;
+import com.aaa.entity.Person;
+
 import java.util.List;
 import java.util.Map;
-
-import com.aaa.entity.Company;
-import com.aaa.entity.News;
-import com.aaa.entity.PageResult;
-import com.aaa.entity.Person;
 
 
 
@@ -14,7 +12,7 @@ import com.aaa.entity.Person;
  * 项目名称：AccumulationFund   
  * 类名称：IHomeService   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月17日 下午6:46:23       
  */
 

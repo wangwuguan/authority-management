@@ -1,15 +1,15 @@
 package com.aaa.util;
 
+import com.aaa.entity.PageResult;
+
 import java.util.List;
 import java.util.Map;
-
-import com.aaa.entity.PageResult;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：PageUtil   
  * 类描述： 关于前台显示分页处理  
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月1日 下午4:19:27       
  */
 public class PageUtil {

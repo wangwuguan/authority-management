@@ -1,18 +1,16 @@
 package com.aaa.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.aaa.entity.PageResult;
+import java.util.List;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：AuditDao   
  * 类描述：   
- * 创建人：胡江鹏  
+ * 创建人：
  * 创建时间：2019年1月9日 下午4:36:35       
  */
 

@@ -1,24 +1,22 @@
 package com.aaa.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.aaa.entity.PageResult;
+import com.aaa.entity.Role;
+import com.aaa.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aaa.entity.PageResult;
-import com.aaa.entity.Role;
-import com.aaa.entity.Role;
-import com.aaa.service.IRoleService;
+import java.util.List;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：RoleController   
  * 类描述： 角色管理
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月2日 下午4:13:05       
  */
 

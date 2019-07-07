@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
  * 项目名称：AccumulationFund
  * 类名称：UserUtil
  * 类描述：存储登录人信息
- * 创建人：王鹏翔
+ * 创建人：will.Wang
  * 创建时间：2019年1月1日 下午4:19:27
  */
 public class UserUtil {

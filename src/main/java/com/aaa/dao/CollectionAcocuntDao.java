@@ -9,7 +9,7 @@ import java.util.Map;
 * 项目名称：AccumulationFund   
 * 类名称：CollectionAcocuntDao   
 * 类描述：提取、汇缴金额查询dao   
-* 创建人：亦谷西农 
+* 创建人：
 * 创建时间：2019年1月21日 下午9:23:05     
 * @version
  */

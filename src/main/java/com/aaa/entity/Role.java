@@ -4,7 +4,7 @@ package com.aaa.entity;
  * 项目名称：AccumulationFund   
  * 类名称：Role   
  * 类描述：  角色实体类
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月3日 下午7:21:38       
  */
 public class Role {

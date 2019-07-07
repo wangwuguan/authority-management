@@ -1,27 +1,24 @@
 package com.aaa.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aaa.entity.Menu;
 import com.aaa.entity.MenuTree;
 import com.aaa.entity.Role;
 import com.aaa.entity.TreeTable;
 import com.aaa.service.IMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：MenuController   
  * 类描述： 获取登录人菜单权限 
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2018年12月28日 上午9:23:27       
  */
 @Controller

@@ -1,20 +1,19 @@
 package com.aaa.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.aaa.service.ICollectionAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aaa.service.ICollectionAccountService;
+import java.util.List;
+import java.util.Map;
 /**
 * 项目名称：AccumulationFund   
 * 类名称：CollectionAccountController   
 * 类描述：财务的controller   
-* 创建人：亦谷西农 
+* 创建人：
 * 创建时间：2019年1月21日 下午2:49:41     
 * @version
  */

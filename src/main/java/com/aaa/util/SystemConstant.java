@@ -5,7 +5,7 @@ package com.aaa.util;
  * 项目名称：AccumulationFund   
  * 类名称：SystemConstant   
  * 类描述：项目所需常量   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2018年12月28日 上午9:27:22
  */
 public interface SystemConstant {

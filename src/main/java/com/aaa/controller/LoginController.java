@@ -1,22 +1,19 @@
 package com.aaa.controller;
 
-import java.util.Map;
-
+import com.aaa.service.IloginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aaa.entity.User;
-import com.aaa.service.IloginService;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：LoginController   
  * 类描述： 用于前后台人员登录、注销账号使用 
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2018年12月28日 下午6:36:27       
  */
 @Controller

@@ -1,13 +1,12 @@
 package com.aaa.entity;
 
 import java.util.List;
-import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：PageResult   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2018年12月29日 下午3:51:32       
  */
 

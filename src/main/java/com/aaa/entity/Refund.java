@@ -7,7 +7,7 @@ import java.util.Date;
  * 项目名称：AccumulationFund   
  * 类名称：Refund   
  * 类描述： 还款表实体类
- * 创建人：陈延铠
+ * 创建人：
  * 创建时间：2019年12月28日 下午5:06:30   
  *
  */

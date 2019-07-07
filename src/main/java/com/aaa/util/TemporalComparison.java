@@ -1,17 +1,15 @@
 package com.aaa.util;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：TemporalComparison   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月22日 上午10:07:44       
  */
 

@@ -1,9 +1,9 @@
 package com.aaa.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.aaa.entity.News;
+import com.aaa.entity.PageResult;
+import com.aaa.service.INewsService;
+import com.aaa.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.aaa.entity.News;
-import com.aaa.entity.PageResult;
-import com.aaa.service.INewsService;
-import com.aaa.util.FileUtil;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：NewsController   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月17日 下午8:47:22       
  */
 @Controller

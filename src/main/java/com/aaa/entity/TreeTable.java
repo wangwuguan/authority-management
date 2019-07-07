@@ -6,7 +6,7 @@ import java.util.List;
  * 项目名称：AccumulationFund   
  * 类名称：MenuTreeT   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月10日 下午6:05:32       
  */
 

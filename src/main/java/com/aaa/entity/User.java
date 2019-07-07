@@ -1,12 +1,11 @@
 package com.aaa.entity;
 
-import java.util.Date;
 /**
  * 
  * 项目名称：AccumulationFund   
  * 类名称：User   
  * 类描述：   后台管理人员
- * 创建人：田浩毅   
+ * 创建人：will.Wang
  * 创建时间：2018年12月27日 下午9:42:34   
  *
  */

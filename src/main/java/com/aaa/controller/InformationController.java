@@ -1,23 +1,20 @@
 package com.aaa.controller;
 
-import java.util.Map;
-
+import com.aaa.entity.PageResult;
+import com.aaa.service.IinformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aaa.entity.PageResult;
-import com.aaa.entity.Person;
-import com.aaa.service.IinformationService;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：InformationController   
  * 类描述： 单位信息和员工信息管理 
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月8日 下午8:58:37       
  */
 @Controller

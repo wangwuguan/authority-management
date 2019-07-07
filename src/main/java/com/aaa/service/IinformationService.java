@@ -1,15 +1,14 @@
 package com.aaa.service;
 
-import java.util.Map;
-
 import com.aaa.entity.PageResult;
-import com.aaa.entity.Person;
+
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：IinformationService   
  * 类描述： 单位及员工账号信息管理  
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月8日 下午9:01:34       
  */
 public interface IinformationService {

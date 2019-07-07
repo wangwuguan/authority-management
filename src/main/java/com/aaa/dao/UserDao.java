@@ -1,12 +1,12 @@
 package com.aaa.dao;
 
+import com.aaa.entity.User;
+
 import java.util.List;
 import java.util.Map;
 
-import com.aaa.entity.User;
-
 /**
- * @author Administrator
+ * @author will.Wang
  * @时间： 2018年12月27日
  */
 public interface UserDao {

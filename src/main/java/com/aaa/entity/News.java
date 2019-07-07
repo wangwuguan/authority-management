@@ -4,7 +4,7 @@ package com.aaa.entity;
  * 项目名称：AccumulationFund   
  * 类名称：News   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月17日 下午7:08:56       
  */
 

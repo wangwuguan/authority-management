@@ -6,7 +6,7 @@ import java.util.Date;
  * 项目名称：AccumulationFund   
  * 类名称：Loan   
  * 类描述： 贷款表实体类
- * 创建人：陈延铠
+ * 创建人：
  * 创建时间：2019年1月7日 下午7:06:55   
  *
  */

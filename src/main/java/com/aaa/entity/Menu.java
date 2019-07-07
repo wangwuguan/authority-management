@@ -4,7 +4,7 @@ package com.aaa.entity;
  * 项目名称：AccumulationFund   
  * 类名称：Menu   
  * 类描述：   菜单表
- * 创建人：田浩毅   
+ * 创建人：
  * 创建时间：2018年12月27日 下午9:41:51   
  *
  */

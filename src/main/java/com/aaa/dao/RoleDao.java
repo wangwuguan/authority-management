@@ -1,16 +1,15 @@
  package com.aaa.dao;
 
+import com.aaa.entity.Role;
+
 import java.util.List;
 import java.util.Map;
-
-import com.aaa.entity.Role;
-import org.apache.ibatis.annotations.Mapper;
 
  /**
  * 项目名称：AccumulationFund   
  * 类名称：RoleDao   
  * 类描述：   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月2日 下午4:13:50       
  */
 public interface RoleDao {

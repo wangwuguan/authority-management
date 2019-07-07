@@ -3,14 +3,11 @@ package com.aaa.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.aaa.entity.Person;
-import com.aaa.entity.User;
-
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：IIformationDao   
  * 类描述： 关于单位及员工账号信息的管理 
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月8日 下午9:00:19       
  */
 public interface InformationDao {

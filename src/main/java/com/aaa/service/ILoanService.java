@@ -1,18 +1,17 @@
 package com.aaa.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.aaa.entity.Loan;
 import com.aaa.entity.PageResult;
-import com.aaa.entity.Person;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
  * 项目名称：AccumulationFund   
  * 类名称：ILoanService   
  * 类描述：   贷款业务层接口
- * 创建人：陈延铠
+ * 创建人：
  * 创建时间：2018年12月28日 下午8:53:15   
  *
  */

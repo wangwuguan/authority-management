@@ -6,7 +6,7 @@ import java.util.List;
  * 项目名称：AccumulationFund   
  * 类名称：MenuTree   
  * 类描述：  树形菜单结构
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月7日 上午9:12:40       
  */
 public class MenuTree {

@@ -12,7 +12,7 @@ import java.util.Map;
  * 项目名称：AccumulationFund   
  * 类名称：AuditRecords   
  * 类描述：日志记录工具类   
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2019年1月9日 下午8:28:36       
  */
 @Component // 需要添加Component注释才会被springboot管理

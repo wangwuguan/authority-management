@@ -1,28 +1,23 @@
 package com.aaa.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.aaa.entity.Company;
 import com.aaa.entity.PageResult;
 import com.aaa.entity.User;
 import com.aaa.service.IUserService;
 import com.aaa.util.UserUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
 
 /**
  * 项目名称：AccumulationFund   
  * 类名称：UserController   
  * 类描述：   后台管理员
- * 创建人：王鹏翔  
+ * 创建人：will.Wang
  * 创建时间：2018年12月27日 下午9:44:06   
  */
 @Controller
