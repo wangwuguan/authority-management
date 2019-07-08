@@ -1,24 +1,23 @@
 package com.aaa.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.aaa.dao.NewsDao;
 import com.aaa.entity.News;
 import com.aaa.entity.PageResult;
 import com.aaa.service.INewsService;
 import com.aaa.util.FileUtil;
 import com.aaa.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：NewsServiceImpl   
- * 类描述：   
- * 创建人：王鹏翔  
+ * 类描述：前台信息管理
+ * 创建人：will.Wang
  * 创建时间：2019年1月17日 下午8:49:11       
  */
 @Service

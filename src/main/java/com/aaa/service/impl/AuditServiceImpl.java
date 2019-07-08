@@ -16,7 +16,7 @@ import com.aaa.util.SystemConstant;
  * 项目名称：AccumulationFund   
  * 类名称：AuditServiceImpl   
  * 类描述：   
- * 创建人：胡江鹏  
+ * 创建人：
  * 创建时间：2019年1月9日 下午4:37:34       
  */
 @Service

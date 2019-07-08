@@ -23,8 +23,8 @@ import com.aaa.util.UserUtil;
  * 
  * 项目名称：AccumulationFund   
  * 类名称：LoanServiceImpl   
- * 类描述：   贷款业务层
- * 创建人：陈延铠
+ * 类描述：贷款业务层
+ * 创建人：
  * 创建时间：2018年12月28日 下午8:57:29   
  *
  */

@@ -1,24 +1,22 @@
 package com.aaa.service.impl;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.aaa.dao.UserDao;
 import com.aaa.entity.PageResult;
 import com.aaa.entity.User;
 import com.aaa.service.IUserService;
 import com.aaa.util.PageUtil;
-import com.aaa.util.SystemConstant;
 import com.aaa.util.UserUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * 
  * 项目名称：AccumulationFund   
  * 类名称：UserServiceImpl   
- * 类描述： 后台管理员
- * 创建人：王鹏翔  
+ * 类描述：后台管理员登录注销
+ * 创建人：will.Wang
  * 创建时间：2018年12月27日 下午9:45:10
  */
 @Service
@@ -103,8 +101,5 @@ public class UserServiceImpl implements IUserService{
 		map.put("uid", user.getUid());
 		return PageUtil.toResult(userDao.updateUserPsd(map));
 	}
-
-	
-	
 
 }

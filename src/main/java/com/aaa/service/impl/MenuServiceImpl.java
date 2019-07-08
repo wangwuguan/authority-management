@@ -1,32 +1,25 @@
 package com.aaa.service.impl;
 
+import com.aaa.dao.MenuDao;
+import com.aaa.entity.*;
+import com.aaa.service.IMenuService;
+import com.aaa.util.PageUtil;
+import com.aaa.util.SystemConstant;
+import com.aaa.util.UserUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.aaa.dao.MenuDao;
-import com.aaa.dao.RoleDao;
-import com.aaa.dao.UserDao;
-import com.aaa.entity.Menu;
-import com.aaa.entity.MenuTree;
-import com.aaa.entity.Role;
-import com.aaa.entity.TreeTable;
-import com.aaa.entity.User;
-import com.aaa.service.IMenuService;
-import com.aaa.util.PageUtil;
-import com.aaa.util.SystemConstant;
-import com.aaa.util.UserUtil;
-
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：MenuServiceImpl   
- * 类描述：  菜单管理 
- * 创建人：王鹏翔  
+ * 类描述：菜单管理
+ * 创建人：will.Wang
  * 创建时间：2018年12月28日 上午9:26:04       
  */
 @Service

@@ -18,8 +18,8 @@ import java.util.Map;
 /**      
  * 项目名称：AccumulationFund   
  * 类名称：RoleServiceImpl   
- * 类描述：   
- * 创建人：王鹏翔  
+ * 类描述：角色管理
+ * 创建人：will.Wang
  * 创建时间：2019年1月2日 下午4:17:38       
  */
 @Service
