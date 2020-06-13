@@ -1,3 +1,7 @@
+# 忽略这个target目录
+target
+.idea
+
 # Compiled class file 编译文件
 *.class
 
