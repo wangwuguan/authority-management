@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.RemitDao">
+	<!-- 查询公司表和个人表 -->
+	<select id="selectCompanyInfo" resultType="map">
+		select sum(pbasenum) bases,sum(counts) sums,sum(countss) sumss,sum(counts)+sum(countss) sum,count(pid) renshu,c.*,s.*,p.* from company c 
+		left JOIN state s on c.stateid=s.sid 
+		left join person p on c.cid=p.acid 
+		where stateid=2
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+		GROUP BY c.cid
+		order by c.cdate desc
+		limit #{page},#{limit}
+	</select>
+	
+	<!-- 查询公司下的所有员工信息 -->
+	<select id="selectPersonalByCid">
+		
+	</select>
+	
+	<!-- 修改冲缴金额 -->
+	<update id="updateCbalanc" >
+		update company set cbalanc=cbalanc+#{cbalanc} where cid=#{cid}
+	</update>
+	
+	
+	<!-- 汇缴办理 -->
+	<update id="updateShowRemit">
+		update company set cbalanc=cbalanc-(select sum(counts)+sum(countss) sum from person where acid=#{cid}),cdatetime=now() where cid=#{cid}  
+	</update>
+	<update id="updatePersonRemit">
+		update person set premitdate=now(),remitstate=12 where acid=#{cid}
+	</update>
+	
+	<select id="getCount" resultType="Integer">
+		select count(*) from company c
+		LEFT JOIN state s on c.stateid=s.sid 
+		left join `user` u on c.userid=u.uid
+		where stateid=2
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+	</select>
+	
+	<!-- 查询需要补缴的人 -->
+	<!-- <select id="selectCompanyPayment" resultType="map">
+		select count(remitstate) needremit,sum(pbasenum) bases,sum(counts) sums,sum(countss) sumss,sum(counts)+sum(countss) sum,count(pid) renshu,c.*,s.*,p.* from company c 
+		left JOIN state s on c.stateid=s.sid 
+		left join person p on c.cid=p.acid 
+		where remitstate=11 and stateid=2
+		<if test="cno!=null and cno!=''"> and c.cno=#{cno}</if>
+		<if test="cname!=null and cname!=''"> and c.cname like concat("%",#{cname},"%")</if>
+		GROUP BY c.cid
+		order by c.cdate desc
+		limit #{page},#{limit}
+	</select> -->
+	<!-- 明细查询记录 -->
+	<insert id="insertCompanyDerail">
+		insert into company_detail(cdno,cdname,cdmuch,cdpeople,cdtype,userid,cdmonth,cdcount) 
+					values(#{cno},#{cname},#{sum},#{renshu},#{cdtype},#{user.uid},now(),#{cdcount})
+	</insert>
+	
+	<!-- 根据单位账户id查询账户余额 -->
+	<select id="selectCbalanc" resultType="String">
+		select cbalanc from company where cid=#{cid}
+	</select>
+	
+	<!-- 明细查询 -->
+	<select id="selectCompanyDetail" resultType="map">
+		select * from company_detail,user 
+		where userid=user.uid
+		<if test="cdno!=null and cdno!=''"> and cdno=#{cdno}</if>
+		<if test="cdname!=null and cdname!=''"> and cdname like concat("%",#{cdname},"%")</if>
+		<if test="starttime!=null and starttime !=''"> and cdmonth >=#{starttime} </if>
+		<if test="endtime!=null and endtime !=''"> and cdmonth &lt;= #{endtime} </if>
+		limit #{page},#{limit}
+	</select>
+	<select id="getCounts" resultType="Integer">
+		select count(*) from company_detail 
+	</select>
+</mapper>

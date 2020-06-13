@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>郑州市住房公积金管理中心</title>	
+    <head th:include="comm::header">
+  </head>
+  
+<body>
+    <!-- 顶部开始 -->
+    <div class="container">
+        <div class="logo"><a href="./index.html">公积金后台管理</a></div>
+        <div class="left_open">
+            <i title="展开左侧栏" class="iconfont">&#xe699;</i>
+        </div>
+        <ul class="layui-nav left fast-add" lay-filter="">
+          <li class="layui-nav-item">
+            <a href="javascript:;">+新增</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+              <dd><a onclick="x_admin_show('添加新闻','/news/toAddNews',600,600)"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
+               <dd><a onclick="x_admin_show('添加用户','/user/toAddUser',600,500)"><i class="iconfont">&#xe6b8;</i>用户</a></dd>
+            </dl>
+            
+          </li>
+          <li class="layui-nav-item">
+          	<a id="showTime" style="color:#FFFFFF; padding-left:50px;"></a>
+          </li>
+        </ul>
+        <ul class="layui-nav right" lay-filter="">
+          <li class="layui-nav-item">
+            <a href="javascript:;">
+	            <!-- 显示登录用户的信息 -->
+	        	<!-- <span th:text="${user.uname}" ></span>-->
+	        	admin 
+            </a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+              <dd>
+              <dd><a href="/user/removeUser">退出</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item"><a onclick="x_admin_show('修改登录密码','/user/toUpdatePsd',500,400)">修改登录密码</a></dd></li>
+          <li class="layui-nav-item to-index"><a href="../front/toFrontMain">前台首页</a></li>
+        </ul>       
+    </div>
+    
+    <!-- 顶部结束 -->
+    <!-- 中部开始 -->
+     <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+      <div id="side-nav">
+        <ul id="nav"> 
+        	<!--  <li >
+                <a href="javascript:;" >
+                    <i class="layui-icon layui-icon-home" style="font-size: 18px;color: #222;" >
+                    <cite>首页</cite>
+                    </i>
+                </a>
+             </li> -->
+        </ul>
+      </div>
+    </div>
+    <!-- <div class="x-slide_left"></div> -->
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+          <ul class="layui-tab-title">
+            <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
+          </ul>
+          <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <iframe src='http://www.baidu.com' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="page-content-bg"></div>
+    <!-- 右侧主体结束 -->
+    <!-- 中部结束 -->
+    <!-- 底部开始 -->
+    <div class="footer">
+        <div class="copyright">Copyright ©2016 郑州市公积金管理中心</div>  
+    </div>
+    <!-- 底部结束 -->
+ <script type="text/javascript" src="../../js/main.js"></script>
+</body>
+</html>

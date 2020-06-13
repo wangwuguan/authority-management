@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>loanAccount.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	    <script type="text/javascript" src="../../echarts/echarts.js"></script> 
+  </head>
+  
+  <body>
+    <div id="main" style="width: 600px;height:400px;"></div>
+  </body>
+  <script type="text/javascript">
+              // 基于准备好的dom，初始化echarts实例
+              var myChart = echarts.init(document.getElementById('main'));
+              // 指定图表的配置项和数据
+              myChart.setOption({
+                   title: {
+                        text: '异步数据加载示例'
+                   },
+                   tooltip: {},
+                   legend: {
+                        data: ['销量']
+                   },
+                   xAxis: {
+                        data: ["1","2","3","4","5"]
+                   },
+                   yAxis: {},
+                   series: [{
+                        name: '销量',
+                        type: 'bar',
+                        data: ["1","2","3","4","5"]
+                   }]
+              });
+           
+             
+          </script>
+</html>

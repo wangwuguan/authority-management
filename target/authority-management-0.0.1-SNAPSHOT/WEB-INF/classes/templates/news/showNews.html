@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>新闻展示</title>
+    <head th:include="comm::header">    
+  </head> 
+<body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="http://www.baidu.com">首页</a>
+        <a href="javascript:;">权限管理</a>
+        <a>
+          <cite>账户管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="新闻编号" name="nid" id="nid">
+          <input class="layui-input" placeholder="新闻标题" name="ntitle" id="ntitle">
+          <div class="layui-input-inline">
+			<input readonly id="starttime" placeholder="开始日期" class="layui-input" name="starttime">
+		  </div>
+		           到
+		  <div class="layui-input-inline" style="margin-right:15px;">
+		  	<input readonly id="endtime" placeholder="结束日期" class="layui-input" name=" endtime">
+		  </div>
+          <a class="layui-btn" id="search" onclick="searchNews()" ><i class="layui-icon">&#xe615;</i></a>
+        </form>
+      </div>
+      <xblock>
+        <button class="layui-btn" onclick="x_admin_show('添加新闻','toAddNews',600,600)"><i class="layui-icon">
+        </i>添加新闻</button>
+  		<span class="x-right" idstyle="line-height:40px">郑州市住房公积金管理中心</span>
+      </xblock> 
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>	
+
+<!-- 新闻编辑框 -->
+<div id="motaikuang" style="display: none;">
+    <div class="x-body">
+    	<form class="layui-form">
+    	  <input type="hidden" name="nid">
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+              	<span class="x-red">*</span>新闻标题
+              </label>
+              <div class="layui-input-inline">
+                  <input name="ntitle" lay-verify="username|required"  
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+           <label for="ncontent" class="layui-form-label">
+           		<span class="x-red">*</span>新闻内容
+           	</label>
+             <div class="layui-input-inline">
+             	  <textarea class="layui-textarea" style="width:100%;height:300px;"
+             	  name="ncontent" lay-verify="required"></textarea>
+             </div>
+          </div>
+          
+          <div class="layui-form-item">
+              <label for="nsrc" class="layui-form-label">
+                  <span class="x-red">*</span>新闻详情图
+              </label>
+              <div>
+              	  <input type="hidden" name="nsrc">
+              </div>
+              <div class="layui-upload">
+  					<button type="button" class="layui-btn layui-btn-danger" id="uploadImg">
+  					<i class="layui-icon"></i>修改图片</button>
+					<div class="layui-inline layui-word-aux">限制大小 3000KB </div>
+					<div class="layui-upload-list">
+    					<img class="layui-upload-img" style="margin-left:100px;width:200px;height:200px" id="demo1">
+    					<p id="demoText"></p>
+  					</div>
+			 </div> 
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave" lay-filter="update" lay-submit="" type="submit" value="修改新闻" />
+          </div>
+      </form>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo"> 
+{{#  if(d.nstate === 1){ }}
+  <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon">&#xe642;</i>编辑</a>
+  <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon">&#xe620;</i>发布</a>
+{{#  } else { }}
+  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+  <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="release"><i class="layui-icon">&#xe620;</i>发布</a>  
+{{#  } }} 
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a> 
+</script>            
+
+<!-- 角色状态显示效果 -->    
+<script type="text/html" id="stateTpl">
+  {{#  if(d.nstate === 1){ }}
+    <span style="color:#FFB800;">已发布</span>
+  {{#  } else { }}
+    <span style="color:#01AAED;">未发布</span>
+  {{#  } }}
+</script>
+
+<script type="text/javascript" th:inline="none">
+	layui.use(['table','form','element','laydate','upload'], function(){
+	  var table = layui.table,
+	  form = layui.form,
+	  upload = layui.upload,
+	  laydate = layui.laydate,
+	  element = layui.element;
+	  
+	  //数据获取
+	  table.render({
+		/* id:"uid",//可以在这里设置需要隐藏的列的字段名，如果是要隐藏多列的话这样写 id:'id,sex' */
+	    elem: '#test'
+	    ,url:'/news/selectAllNews'
+	    ,title: '前台新闻'
+	    ,cols: [[
+		  {type: 'numbers', title: '编号',fixed: 'left'}
+	      ,{field:'nid', title: '新闻编号' , width:90 ,sort: true}
+	      ,{field:'ntitle', title: '新闻标题'}
+	      ,{field:'nsrc', title: '新闻详情图', width: 300}
+	      ,{field:'ncontent', title: '新闻内容'}
+	      ,{field:'ntime', title: '新闻发布时间'}
+	      ,{field:'nstate', title: '新闻状态' , totalRow: true, templet: '#stateTpl' }
+	      ,{fixed: 'right', title: '操作', width: 300, align:'center', toolbar: '#barDemo'}
+	    ]]
+	    ,page: true
+	  });
+	  
+	  //日期选择1
+	  var nowTime = new Date().valueOf();      
+	  var start = laydate.render({
+		        elem: '#starttime',
+		        type: 'date',
+		        max: nowTime,
+		        btns: ['clear', 'confirm'],
+		        done: function(value, date){
+		            endMax = end.config.max;
+		            end.config.min = date;
+		            end.config.min.month = date.month-1;
+		        }
+		    });
+	  
+	    //日期选择2
+	    var end = laydate.render({
+	        elem: '#endtime',
+	        type: 'date',
+	   		 max: nowTime,
+	        done: function(value, date){
+	            if($.trim(value) == ''){
+	                var curDate = new Date();
+	                date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+	            }
+	            start.config.max = date;
+	            start.config.max.month = date.month-1;
+	        }
+	    });
+	    
+	    //监听提交
+        form.on('submit(update)', function(data){ 
+		    // * 整合表单数据
+		    var formData = data.field;
+		    //发异步，把数据提交
+		    $.ajax({
+          	url:"/news/updateNews",
+          	data:formData,
+          	type:"post",
+          	success:function(datas){
+          		//关闭弹出层
+          		layer.close(layer.index);
+          		if (datas=="success") {
+          			table.reload("test");
+          			layer.msg("修改成功");
+				}
+          	},
+          	error:function(){
+          		layer.alert("添加错误", {icon: 6})
+          	}
+          });
+          //必不可少
+          return false;
+        });  
+	   
+	    //图片上传
+        var uploadInst = upload.render({
+      	    elem: '#uploadImg'
+      	    ,url: '/news/upload'
+      	    ,size: 3000 //限制文件大小，单位 KB
+      	    ,before: function(obj){
+      	      //预读本地文件示例，不支持ie8
+      	      obj.preview(function(index, file, result){
+      	        $('#demo1').attr('src', result); //图片链接（base64）
+      	      });
+      	    }
+      	    ,done: function(res){
+      	      $("#nsrc").val(res.data);
+      	      //如果上传失败
+      	      if(res.code > 0){
+      	        return layer.msg('上传失败');
+      	      }
+      	      //上传成功
+      	    }
+      	    ,error: function(){
+      	      //演示失败状态，并实现重传
+      	      var demoText = $('#demoText');
+      	      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+      	      demoText.find('.demo-reload').on('click', function(){
+      	        uploadInst.upload();
+      	      });
+      	      layer.msg("错误");
+      	    }
+      	  });
+	  
+	  //监听行工具事件
+	  table.on('tool(test)', function(obj){
+	    var data = obj.data;
+	    //员工离职操作
+	    if(obj.event === 'del'){
+	        layer.confirm('确认删除该新闻吗？', function(index){
+	        	//异步操作，修改员工状态
+	        	$.ajax({
+	        		url:"/news/delNews",
+	              	data:{"nid":data.nid},
+	              	type:"post",
+	              	success:function(datas){
+	              		table.reload("test");
+              			layer.close(layer.index);
+	              		if (datas=="success") {
+	              			layer.msg("新闻已删除");
+	              		}
+	              	},
+	              	error:function(){
+	              		layer.msg("添加错误");
+	              	}
+	        	});	        	
+	        });
+	      } else if(obj.event === 'edit'){
+	    	//编辑事件
+	    	/* layer.alert('编辑行：<br>'+ JSON.stringify(data)); */	
+	    	$("[name='nid']").val(data.nid);
+	    	$("[name='ntitle']").val(data.ntitle);
+	    	$("[name='ncontent']").val(data.ncontent);//向模态框中赋值
+	    	$("[name='nsrc']").val(data.nsrc);
+	    	$('#demo1').attr('src', data.nsrc);
+	    	//打开模态框
+	    	layer.open({
+                type:1,//类型
+                area:['500px','600px'],//定义宽和高
+                title:'查看新闻详细信息',//题目
+                shadeClose:false,//点击遮罩层关闭
+                content: $('#motaikuang')//打开的内容
+            });	
+	    } else if(obj.event === 'release') {
+	    	layer.confirm('确认发布该新闻', function(index){
+	    		//异步操作，修改员工状态
+	        	$.ajax({
+	        		url:"/news/updateNewsState",
+	              	data:{"nid":data.nid},
+	              	type:"post",
+	              	success:function(datas){
+	              		table.reload("test");
+              			layer.close(layer.index);
+	              		if (datas=="success") {
+	              			layer.msg("新闻已发布");
+	              		}
+	              	},
+	              	error:function(){
+	              		layer.msg("添加错误");
+	              	}
+	        	});	  
+	    	});
+	    }
+	  });
+	  
+	});
+	
+	//模糊查询刷新页面
+	function searchNews(){
+	  layui.use('table', function(){
+		  var table = layui.table;
+		  var nid = $("#nid").val();
+		  var ntitle = $("#ntitle").val();
+		  var starttime = $("#starttime").val();
+		  var endtime = $("#endtime").val();
+		  table.reload('test', {
+			  url: '/news/selectAllNews'
+			  ,where: {
+				  nid:nid,
+				  ntitle:ntitle,
+				  starttime:starttime,
+				  endtime:endtime
+			  } //设定异步数据接口的额外参数
+			  ,page: {
+	  			 	curr: 1 //重新从第 1 页开始
+	 			  }
+			});
+	  });		
+	}
+	
+</script>
+</body>
+</html>

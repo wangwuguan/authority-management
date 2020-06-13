@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>添加新闻</title>	
+    <head th:include="comm::header">
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+              	<span class="x-red">*</span>新闻标题
+              </label>
+              <div class="layui-input-inline">
+                  <input id="ntitle" name="ntitle" lay-verify="username|required"  
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+           <label for="ncontent" class="layui-form-label">
+           		<span class="x-red">*</span>新闻内容
+           	</label>
+             <div class="layui-input-inline">
+             	  <textarea class="layui-textarea" style="width:100%;height:300px;" id="ncontent" 
+             	  name="ncontent" lay-verify="required"></textarea>
+             </div>
+          </div>
+          
+          <div class="layui-form-item">
+              <label for="nsrc" class="layui-form-label">
+                  <span class="x-red">*</span>新闻详情图
+              </label>
+              <div>
+              	  <input type="hidden" id="nsrc" name="nsrc">
+              </div>
+              <div class="layui-upload">
+  					<button type="button" class="layui-btn layui-btn-danger" id="uploadImg">
+  					<i class="layui-icon"></i>上传图片</button>
+					<div class="layui-inline layui-word-aux">限制 3000KB 以内</div>
+					<div class="layui-upload-list">
+    					<img class="layui-upload-img" style="margin-left:100px;width:200px;height:200px" id="demo1">
+    					<p id="demoText"></p>
+  					</div>
+			 </div> 
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave" lay-filter="add" lay-submit="" type="submit" value="添加新闻" />
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer','layedit','upload'], function(){
+          var form = layui.form
+          ,layedit = layui.layedit
+          ,upload = layui.upload
+          ,layer = layui.layer;
+          
+          $('.site-demo-layedit').on('click', function(){
+        	    var type = $(this).data('type');
+        	    active[type] ? active[type].call(this) : '';
+        	  });
+          
+          //图片上传
+          var uploadInst = upload.render({
+        	    elem: '#uploadImg'
+        	    ,url: '/news/upload'
+        	    ,size: 3000 //限制文件大小，单位 KB
+        	    ,before: function(obj){
+        	      //预读本地文件示例，不支持ie8
+        	      obj.preview(function(index, file, result){
+        	        $('#demo1').attr('src', result); //图片链接（base64）
+        	      });
+        	    }
+        	    ,done: function(res){
+        	      $("#nsrc").val(res.data);
+        	      //如果上传失败
+        	      if(res.code > 0){
+        	        return layer.msg('上传失败');
+        	      }
+        	      //上传成功
+        	    }
+        	    ,error: function(){
+        	      //演示失败状态，并实现重传
+        	      var demoText = $('#demoText');
+        	      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+        	      demoText.find('.demo-reload').on('click', function(){
+        	        uploadInst.upload();
+        	      });
+        	      layer.msg("错误");
+        	    }
+        	  });
+ 
+          //监听提交
+          form.on('submit(add)', function(data){ 
+		    // * 整合表单数据
+		    var formData = data.field;
+		    //发异步，把数据提交
+		    $.ajax({
+            	url:"/news/addNews",
+            	data:formData,
+            	type:"post",
+            	success:function(datas){
+            		if (datas=="success") {
+            			layer.alert("添加成功", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //刷新父页面
+	              			window.parent.location.reload();
+                            //关闭当前frame
+                            parent.layer.close(index);
+                        });
+					}
+            	},
+            	error:function(){
+            		layer.alert("添加错误", {icon: 6})
+            	}
+            });
+            //必不可少
+            return false;
+          });  
+          
+        });
+               
+    </script>
+  </body>
+  </body>
+</html>

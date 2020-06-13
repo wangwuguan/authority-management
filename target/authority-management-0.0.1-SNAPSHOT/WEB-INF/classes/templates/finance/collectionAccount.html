@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>main.html</title>
+    <script type="text/javascript" src="../../echarts/echarts.js"></script>  
+    <head th:include="comm::header">
+     
+  </head> 
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="http://www.baidu.com">首页</a>
+        <a href="javascript:;">财务管理</a>
+        <a>
+          <cite>归集情况分析</cite>
+        </a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    
+	<div  class="layui-tab layui-tab-brief">
+		  <ul class="layui-tab-title">
+		    <li class="layui-this">按年份查询</li>
+		    <li>按季度查询</li>
+		    <li>按月份查询</li>
+		    <li>按天查询</li>
+		    <li>限定日期查询</li>
+		  </ul>
+		  
+		  <div class="layui-tab-content">
+			  		<!-- 按年份查询 -->
+				    <div class="layui-tab-item layui-show">
+				         <div style="margin-left:130px">
+					    	请选择年份：
+					    	 <div class="layui-input-inline">
+								<input type="text" id="nian1" placeholder="yyyy" onblur="reYear()" class="layui-input">
+						 	 </div>
+						 	 <a class="layui-btn  layui-btn-normal"  onclick = "searchYear()"><i class="layui-icon">&#xe615;</i>查询</a>
+					 	 </div>  
+					 	 <div id="main" style="height:400px; width:1600px"></div>
+					 	
+				    </div>
+		   	 
+		    
+		    		<!-- 按季度查询 -->
+				    <div class="layui-tab-item">
+					    <div style="margin-left:130px">
+						    	 请选择年份：
+						    	 <div class="layui-input-inline">			    	
+									<input type="text" id="nian2" placeholder="yyyy" class="layui-input ">
+							 	 </div>
+						    	请选择季度：
+						    	<div class="layui-input-inline">				    				    	
+								    <select id="edit_quarter" style="height:38px">
+								      <option value="1" selected>一季度</option>
+								      <option value="2">二季度</option>
+								      <option value="3">三季度</option>
+								      <option value="4">四季度</option>
+								    </select>
+							    </div>	
+						</div>
+						<div id="main1" style="height:400px; width:1600px"></div>			    	
+				    </div>
+				    
+				    
+				    <!-- 按年月查询 -->
+				    <div class="layui-tab-item">
+					    <div style="margin-left:130px">
+					    	请选择年月：
+					    	 <div class="layui-input-inline">
+								<input type="text" id="yearAndMonth" placeholder="yyyy-MM" class="layui-input">
+						 	 </div>
+						 </div>
+						 <div id="main2" style="height:400px; width:1600px"></div>	
+				    </div>
+				    
+				    
+				    <!-- 按天查询 -->
+				    <div class="layui-tab-item">
+					    <div style="margin-left:130px">
+					    	请选择日期：
+					    	 <div class="layui-input-inline">
+								<input type="text" id="date1" placeholder="yyyy-MM-dd" class="layui-input">
+						 	 </div>
+						 </div>
+						 <div id="main3" style="height:400px; width:1600px"></div>
+				    </div>
+				    
+				    
+				    <!-- 限定日期查询 -->
+				    <div class="layui-tab-item">
+					    <div style="margin-left:130px">
+					   		 请选择日期
+					    	 <div class="layui-input-inline">
+								<input type="text"  readonly id="starttime" class="layui-input" name="starttime">
+				 			</div>
+			         		  到
+						     <div class="layui-input-inline" style="margin-right:15px;">
+								<input type="text"  readonly id="endtime" class="layui-input" name=" endtime">
+							 </div>
+						</div>
+						<div id="main4" style="height:400px; width:1600px"></div>
+				    </div>
+		</div>         
+
+
+</div>
+<script type="text/javascript" th:inline="none">
+  	var timestamp3 = new Date().getTime();//当前时间的时间辍
+	layui.use(['laydate'], function(){
+	  	//var table = layui.table,
+	  	//var element = layui.element,
+	  	var laydate=layui.laydate;
+
+//按年份查询
+	  	laydate.render({ 
+	  	   	elem:"#nian1"
+		  	,type:'year'
+		 	,max:timestamp3
+		 	,theme: '#393D49'
+		 	,showBottom: false
+	  	  	,change:function(value,Date,enddate){
+	  	  		$("#nian1").val(value);
+	  	  	}
+	  	});
+	  	
+	  	
+//按季度查询
+	  	laydate.render({ 
+	  	   	elem:"#nian2"
+		  	,type:'year'
+		 	,max:timestamp3
+		 	,theme: '#393D49'
+		 	,showBottom: false
+	  	  	,change:function(value,Date,enddate){
+	  	  		$("#nian2").val(value);
+	  	  	}
+	  	});
+//按年月查询
+	  	laydate.render({ 
+	  	   	elem:"#yearAndMonth"
+		  	,type:'month'
+		 	,max:timestamp3
+		 	,theme: '#393D49'
+		 	,showBottom: false
+	  	  	,change:function(value,Date,enddate){
+	  	  		$("#yearAndMonth").val(value);
+	  	  	}
+	  	});
+	  	
+		
+//按天查询
+	  	laydate.render({ 
+	  	   	elem:"#date1"
+		  	,type:'date'
+		 	,max:timestamp3
+		 	,theme: '#393D49'
+		 	,showBottom: false
+	  	  	,change:function(value,Date,enddate){
+	  	  		$("#date1").val(value);
+	  	  	}
+	  	});
+		
+//按时间段查询
+	  //日期选择1
+	  var nowTime = new Date().valueOf();      
+	  var start = laydate.render({
+		        elem: '#starttime',
+		        type: 'date',
+		        max: nowTime,
+		        btns: ['clear', 'confirm'],
+		        done: function(value, date){
+		            endMax = end.config.max;
+		            end.config.min = date;
+		            end.config.min.month = date.month -1;
+		        }
+		    });
+	    //日期选择2
+	    var end = laydate.render({
+	        elem: '#endtime',
+	        type: 'date',
+	   		 max: nowTime,
+	        done: function(value, date){
+	            if($.trim(value) == ''){
+	                var curDate = new Date();
+	                date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+	            }
+	            start.config.max = date;
+	            start.config.max.month = date.month -1;
+	        }
+	    });
+  	 
+	});
+	
+ 
+/* 按年查询 */ 
+			  	//给输入框赋予默认值
+			  	var date=new Date;
+			 	var nowYear=date.getFullYear();
+			 	var fundMoney = 0;
+			 	var cdmuch = 0 ;
+			 	if($("#nian1").val()==""){
+			 		$("#nian1").val(nowYear);
+			 	}
+			 	var byYear = $("#nian1").val();
+			 	$.ajax({
+					url:"/CollectionAccount/searchFundByTime",
+					data:{"byYear":byYear},
+					type:"post",
+					success:function(succ){
+						for(var i=0;i<succ.length;i++){   
+							//alert(succ[i].takefundmoney);
+		    	    		fundMoney += Number(succ[i].takefundmoney);
+		    	    	} 
+						//alert(JSON.stringify(succ));
+					},
+					error:function(err){
+						layer.msg("查询失败！");
+					}
+				})
+				$.ajax({
+						url:"/CollectionAccount/searchCompanyMoneyByTime",
+						data:{"byYear":byYear},
+						type:"post",
+						success:function(succ){
+							for(var i=0;i<succ.length;i++){   							
+								cdmuch+=Number(succ[i].cdmuch);
+			    	    	}
+							alert("1提取了"+fundMoney+"1汇缴了"+cdmuch);
+							//alert(JSON.stringify(succ));
+						},
+						error:function(err){
+							layer.msg("汇缴查询失败！");
+						}
+					})
+			   //年份如果值为空，则设置为默认值
+				function searchYear(){
+					byYear = $("#nian1").val();
+					$.ajax({
+						url:"/CollectionAccount/searchFundByTime",
+						data:{"byYear":byYear},
+						type:"post",
+						success:function(succ){
+							fundMoney = 0;
+							for(var i=0;i<succ.length;i++){   							
+			    	    		fundMoney+=Number(succ[i].takefundmoney);
+			    	    	}
+							alert("2提取了"+fundMoney);
+							//alert(JSON.stringify(succ));
+						},
+						error:function(err){
+							layer.msg("提取查询失败！");
+						}
+					})
+					$.ajax({
+						url:"/CollectionAccount/searchCompanyMoneyByTime",
+						data:{"byYear":byYear},
+						type:"post",
+						success:function(succ){
+							cdmuch = 0;
+							for(var i=0;i<succ.length;i++){   							
+								cdmuch+=Number(succ[i].cdmuch);
+			    	    	}
+							alert("2汇缴了"+cdmuch);
+							//alert(JSON.stringify(succ));
+						},
+						error:function(err){
+							layer.msg("汇缴查询失败！");
+						}
+					})
+				}
+			   //按年份查询时 的柱形图数据
+			   var option = {
+			        tooltip: {
+			            show: true
+			        },
+			        legend: {
+			            data:['提取金额','缴存金额']
+			        },
+			        xAxis : [
+			            {
+			                type : 'category',
+			                data : [byYear]
+			            }
+			        ],
+			        yAxis : [
+			            {
+			                type : 'value'
+			            }
+			        ],
+			        series : [
+			            {
+			                name:"提取金额",
+			                type:"bar",
+			                data:[fundMoney]
+			            },
+			            {
+			                name:"缴存金额",
+			                type:"bar",
+			                data:[cdmuch]
+			            }
+			
+			            
+			        ]
+			    };
+				// 基于准备好的dom，初始化echarts图表
+			    var myChart = echarts.init(document.getElementById('main')); 
+			    // 为echarts对象加载数据 
+			    myChart.setOption(option); 
+/* 按季度查询 */
+
+/* 按月份查询 */ 
+
+
+/* 按天查询 */
+
+/* 限定日期查询 */ 
+
+</script>
+</body>
+</html>

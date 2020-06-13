@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>展示页面</title>
+    <head th:include="comm::header">    
+  </head> 
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="还款编号" name="lno" id="lno">
+          <input class="layui-input" placeholder="还款人" name="pname" id="pname">
+         <div class="layui-input-inline" >
+              <input type="text"  readonly id="starttime"   placeholder="可选择日期"   class="layui-input" name="starttime">
+          </div>
+          到
+          <div class="layui-input-inline" >
+              <input type="text"  readonly id="endtime"   placeholder="可选择日期"   class="layui-input" name=" endtime">
+          </div>
+          <a class="layui-btn" id="search" onclick="searchUser()" ><i class="layui-icon">&#xe615;</i></a>
+        </form>
+      </div>
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+
+<div id="beforehandRefund" style="display: none;">
+	<form lay-filter="formTest" id="formTest"  class="layui-form"  >
+			<h2 >还款信息</h2>
+				<div class="layui-form-item" >
+				    	<label  class="layui-form-label">
+				                 贷款人账号:
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rpno" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 贷款人：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="pname" autocomplete="off" class="layui-input">
+							</div>
+							
+								
+							<label  class="layui-form-label">
+				                 贷款利率(%)：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rrate" autocomplete="off" class="layui-input">
+							</div>
+				</div>
+				
+				<div class="layui-form-item" >
+				    	<label  class="layui-form-label">
+				                 贷款金额：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rallmoney" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				               已还本金:
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rhavecapital"  autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 剩余金额：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rresiduemoney" autocomplete="off" class="layui-input">
+							</div>
+				</div>
+				
+					<div class="layui-form-item" >
+				    	<label  class="layui-form-label">
+				                贷款期数：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rallperiods" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 已还期数：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rhaveperiods" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 剩余期数:
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rresidueperiods" autocomplete="off" class="layui-input">
+							</div>
+					</div>
+					
+				<div class="layui-form-item" >
+				    	<label  class="layui-form-label">
+				                  已还金额：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rhavemoney" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 已还利息
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rhaveinterest" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 上次还款日：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly name="rlasttime" autocomplete="off" class="layui-input">
+							</div>
+					</div>
+					
+						<div class="layui-form-item" >
+				    	<label  class="layui-form-label">
+				                提前还款金额：
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly id="rbeforehandmoney" name="rbeforehandmoney" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                提前还款本金:
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly  id="rbeforehandcapital"  name="rbeforehandcapital" autocomplete="off" class="layui-input">
+							</div>
+							
+							<label  class="layui-form-label">
+				                 提前还款利息:
+				              </label>
+				              <div class="layui-input-inline">
+							<input readonly  id="rbeforehandinterest" name="rbeforehandinterest" autocomplete="off" class="layui-input">
+							</div>
+					</div>
+			<div class="layui-form-item" align="right">
+				   <input class="layui-btn" id="allRefund" lay-filter="allRefund" lay-submit="" type="button" />
+          </div>
+          <!--  还款类型 -->	
+          <input  type="hidden" readonly name="rtype"  autocomplete="off" class="layui-input">
+			<!--还款创建时间   -->
+          <input  type="hidden"  id="rcreatetime" readonly name="rcreatetime"  autocomplete="off" class="layui-input">
+          <!--最迟还款日 判断逾期用的  -->
+           <input  type="hidden"  id="rtime" readonly name="rtime"  autocomplete="off" class="layui-input">
+          
+	</form>
+</div>
+
+
+<div id="refundhistory" style="display: none;">
+		<table class="layui-hide" id="histor"  lay-filter="histor"></table>
+</div>
+<script type="text/html" id="barDemo">
+	{{#  if(d.rhaveperiods>=12){ }}
+   <a class="layui-btn layui-btn-xs" lay-event="details"><i class="layui-icon">&#xe642;</i>提前还款</a>
+{{#  } }}
+   <a class="layui-btn layui-btn-xs" lay-event="history"><i class="layui-icon">&#xe642;</i>还款记录</a>
+</script>
+               
+ 
+<script type="text/javascript" th:inline="none">
+	
+	
+	layui.use(['table','form','element','layer','laydate'], function(){
+	  var table = layui.table,
+	  form=layui.form,
+	  layer=layui.layer,
+	  laydate=layui.laydate;
+	  
+	  //还款表信息
+	  table.render({
+	    elem: '#test'
+	    ,url:'/refund/everyRefund'
+	    ,title: '贷款审核表'
+	    ,cols: [[
+	       {type:"numbers",title:"编号"}
+	      ,{field:'rpno', title: '还款账号' }
+	      ,{field:'pname', title: '贷款人' }
+	      ,{field:'rtype', title: '还款类型' }
+	      ,{field:'rallmoney', title: '贷款金额' }
+	      ,{field:'rallperiods', title: '贷款期数' }
+	      ,{field:'rrate', title: '贷款利率' }
+	      ,{field:'sname', title: '状态' }
+	      ,{field:'rcreatetime', title: '申请日期' }
+	      ,{fixed: 'right', width:200 , align:'center',title:'操作', toolbar: '#barDemo'}
+	    ]]
+	    ,page: true
+	  });
+	  //还款记录信息
+
+	  
+	 
+	  //日期选择1
+   var nowTime = new Date().valueOf();
+  		       var start = laydate.render({
+  		        elem: '#starttime',
+  		        type: 'date',
+  		        max: nowTime,
+  		        btns: ['clear', 'confirm'],
+  		        done: function(value, date){
+  		            endMax = end.config.max;
+  		            end.config.min = date;
+  		            end.config.min.month = date.month -1;
+  		        }
+  		    });
+  			  //日期选择2
+  		    var end = laydate.render({
+  		        elem: '#endtime',
+  		        type: 'date',
+  		   		 max: nowTime,
+  		        done: function(value, date){
+  		            if($.trim(value) == ''){
+  		                var curDate = new Date();
+  		                date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+  		            }
+  		            start.config.max = date;
+  		            start.config.max.month = date.month -1;
+  		        }
+  		    });
+  		   
+	  //监听行工具事件
+	  table.on('tool(test)', function(obj){
+	   			 var data = obj.data;	    	
+		    	//刷新表单数据 使其默认值有效
+		    	layui.form.render('select','boardFilter');
+		    	//判断本月是否已经还款
+		    
+		    	
+		    	//日期判断逾期
+		    	
+		    	
+		    		form.val("formTest",{
+							    		rpno:data.rpno,
+							    		pname:data.pname,
+							    		cname:data.cname,
+							    		sname:data.sname,
+							    		rallmoney:data.rallmoney,
+							    		rhavemoney:data.rhavemoney,
+							    		rhavecapital:data.rhavecapital,
+							    		rhaveinterest:data.rhaveinterest,
+							    		rallperiods:data.rallperiods,
+							    		rhaveperiods:data.rhaveperiods,
+							    		rlasttime:data.rlasttime,
+							    		rresiduemoney:data.rallmoney-data.rhavecapital,
+							    		rresidueperiods:data.rallperiods-data.rhaveperiods,
+							    		rtype:data.rtype,
+							    		rrate:data.rrate,
+							    		rcreatetime:data.rcreatetime,
+				    					rbeforehandcapital:data.rallmoney-data.rhavecapital,
+				    					rtime:data.rtime
+							    	});
+	    		//打开模态框
+		     if(obj.event === 'history'){
+					var hno=data.rpno;
+					  table.render({
+						    elem: '#histor'
+						    ,url:'/refund/showHistory'
+						    ,where:{hno:hno,hcreatetime:data.rcreatetime}
+						    ,title: '还款记录'
+						    ,cols: [[
+						 		{type:"numbers",title:"编号"}
+						      ,{field:'hname', title: '贷款人' }
+						      ,{field:'hperiods', title: '贷款期数' }
+						      ,{field:'hmoney', title: '本次还款金额' }
+						      ,{field:'hcapital', title: '本次还款本金' }
+						      ,{field:'hinterest', title: '本次还款利息' }
+						      ,{field:'htime', title: '还款日期' }
+						    ]]
+						    ,page: true
+						  });
+						layer.open({
+				            type:1,//类型
+				            area:['900px','500px'],//定义宽和高
+				            title:'还款记录',//题目
+				            shadeClose:true,//点击遮罩层关闭
+				            content: $('#refundhistory')//打开的内容
+				        });	
+			  }else if(obj.event === 'details'){
+				  
+					var rtime = $("#rtime").val();
+					rtime = new Date(rtime.replace(/-/g, "/"));
+			    	var now = new Date();
+			    	var times = now.getTime() - rtime.getTime();
+			    	var day = parseInt(times / (1000 * 60 * 60 * 24));
+			    	if(day>0){
+			    		layer.alert("已经逾期,无法提前还款")
+			    	}else{
+			    		$.ajax({
+				    		url:"/refund/selectHistory",
+				    		type:'post',
+				    		data:{hpno:data.rpno},
+				    		success:function(d){
+				    			if(d>0){
+				    				$("#rbeforehandinterest").val(0);//当月还款后提前还款利息为0
+				    		    
+				    			}else{
+				    				$("#rbeforehandinterest").val(data.rinterest);	
+				    			}
+				    			//提前还款总额
+				    			$("#rbeforehandmoney").val(data.rallmoney-data.rhavecapital+$("#rbeforehandinterest").val());
+				    			
+				    			$("#allRefund").val("提前还"+$("#rbeforehandmoney").val()+"元");
+				    			layer.open({
+						            type:1,//类型
+						            area:['1000px','550px'],//定义宽和高
+						            title:'提前还款信息',//题目
+						            shadeClose:true,//点击遮罩层关闭
+						            content: $('#beforehandRefund')//打开的内容
+						        });	
+				    		},
+				    		error:function(da){
+				    			
+				    		}
+				    	});            
+			    	}
+			    
+				
+			  }
+	  });
+	  
+	//还款操作
+		form.on('submit(allRefund)',function(data){
+			var formData=data.field;
+			$.ajax({
+				url:"/refund/befundhandRefund",
+				data:formData,
+				type:"post",
+				success:function(d){
+					if(d==1){	
+						layer.alert("还款成功");
+						layer.close();
+						  table.reload('test', {});
+					}
+	
+				},
+				error:function(){
+					
+				}
+			});
+		});
+			
+		
+		
+		});
+	
+	
+
+	
+	
+	//模糊查询刷新页面
+	function searchUser(){
+	  layui.use('table', function(){
+		  var table = layui.table;
+		  var lno = $("#lno").val();
+		  var pname = $("#pname").val();
+		  var starttime = $("#starttime").val();
+		  var endtime = $("#endtime").val();
+		  table.reload('test', {
+			  url: '/refund/everyRefund'
+			  ,where: {
+				  lno:lno,
+				  pname:pname,
+				  starttime:starttime,
+				  endtime:endtime  
+			  } //设定异步数据接口的额外参数
+			  ,page: {
+	  			 	curr: 1 //重新从第 1 页开始
+	 			  }
+			});
+	  });		
+	}
+	
+</script>
+</body>
+</html>

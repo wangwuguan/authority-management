@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>main.html</title>
+    <head th:include="comm::header">    
+  </head> 
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="http://www.baidu.com">首页</a>
+        <a href="javascript:;">账户信息</a>
+        <a>
+          <cite>个人信息</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="个人公积金账号" name="pno" id="pno">
+          <input class="layui-input" placeholder="职工姓名" name="pname" id="pname">
+          <div class="layui-input-inline">
+			<input readonly id="starttime" placeholder="开始日期" class="layui-input" name="starttime">
+		  </div>
+		           到
+		  <div class="layui-input-inline" style="margin-right:15px;">
+		  	<input readonly id="endtime" placeholder="结束日期" class="layui-input" name=" endtime">
+		  </div>
+          <a class="layui-btn" id="search" onclick="searchUser()" ><i class="layui-icon">&#xe615;</i></a>
+        </form>
+      </div>
+      <xblock>
+        <button class="layui-btn" >公积金管理个人信息表</button>
+  		<span class="x-right" idstyle="line-height:40px">公积金管理中心</span>
+      </xblock> 
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+  
+<script type="text/javascript" th:inline="none">
+	layui.use(['table','form','element','laydate'], function(){
+	  var table = layui.table,
+	  laydate = layui.laydate,
+	  form = layui.form,
+	  element = layui.element;
+	  
+	  //数据获取
+	  table.render({
+	    elem: '#test'
+	    ,url:'/information/selectPersonCrecords'
+	    ,title: '公积金管理单位信息表'
+	    ,cols: [[
+			{type: 'numbers', title: '编号',fixed: 'left'},
+			{field:'pno', title: '个人公积金账号' },
+			{field:'pname', title: '姓名' },
+			{field:'uname', title: '操作人' },
+			{field:'rpname', title: '操作信息' },
+			{field:'rpmsg', title: '操作备注' },
+			{field:'rptime', title: '操作日期' },
+	    ]]
+	    ,page: true
+	  });
+	 
+	//日期选择1
+	  var nowTime = new Date().valueOf();      
+	  var start = laydate.render({
+		        elem: '#starttime',
+		        type: 'date',
+		        max: nowTime,
+		        btns: ['clear', 'confirm'],
+		        done: function(value, date){
+		            endMax = end.config.max;
+		            end.config.min = date;
+		            end.config.min.month = date.month-1;
+		        }
+		    });
+	    //日期选择2
+	    var end = laydate.render({
+	        elem: '#endtime',
+	        type: 'date',
+	   		 max: nowTime,
+	        done: function(value, date){
+	            if($.trim(value) == ''){
+	                var curDate = new Date();
+	                date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+	            }
+	            start.config.max = date;
+	            start.config.max.month = date.month-1;
+	        }
+	    });
+	  
+	});
+	  
+	//模糊查询刷新页面
+	function searchUser(){
+	  layui.use('table', function(){
+		  var table = layui.table;
+		  var pno = $("#pno").val();
+		  var pname = $("#pname").val();
+		  var starttime = $("#starttime").val();
+		  var endtime = $("#endtime").val();
+		  table.reload('test', {
+			  url: '/information/selectPersonCrecords'
+			  ,where: {
+				  pno:pno,
+				  pname:pname,
+				  starttime:starttime,
+				  endtime:endtime
+			  } //设定异步数据接口的额外参数
+			  ,page: {
+	  			 	curr: 1 //重新从第 1 页开始
+	 			  }
+			});
+	  });
+	}
+	
+</script>
+</body>
+</html>

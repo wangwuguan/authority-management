@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>后台主页</title>
+    <head th:include="comm::header">    
+  </head> 
+<body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="http://www.baidu.com">首页</a>
+        <a href="javascript:;">权限管理</a>
+        <a>
+          <cite>角色管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class=" layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="角色编号" name="rid" id="rid">
+          <input class="layui-input" placeholder="角色名称" name="rname" id="rname">
+          <a class="layui-btn" id="search" onclick="searchRole()" ><i class="layui-icon">&#xe615;</i></a>
+        </form>
+      </div>
+      <xblock>
+        <button class="layui-btn" onclick="x_admin_show('添加新角色','toAddRole',600,300)"><i class="layui-icon">
+        </i>添加新角色</button>
+  		<span class="x-right" style="color:#000000;" idstyle="line-height:40px">角色管理信息表</span>
+      </xblock> 
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+
+<!--编辑模态框-->
+<div id="motaikuang" style="display: none;">
+    <div class="x-body">
+      <form class="layui-form">
+      	   <input type="hidden" id="rid2" name="rid">
+          <div class="layui-form-item">
+              <label for="rname" class="layui-form-label">
+              	<span class="x-red">*</span>角色名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="rname2" name="rname" lay-verify="username|roleName2" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+           <label for="rdesc" class="layui-form-label">
+           		<span class="x-red">*</span>角色描述
+           	</label>
+             <div class="layui-input-inline">
+                  <input type="text" name="rdesc" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <input class="layui-btn" id="btnSave" lay-filter="update" lay-submit="" type="submit" value="确认修改" />
+          </div>
+      </form>
+    </div>
+</div>
+
+<!-- 授权模态框 -->
+<div id="accreditRole" style="display: none;">
+	<form class="layui-form">
+		<input id="roleid" name="rid" value="" type="hidden" />
+   		<div id="xtree" name="xtree" style="width:400px; margin:0 auto; padding: 10px 0 25px 5px;"></div>
+   		<div class="layui-form-item">
+             <label for="L_repass" class="layui-form-label"></label>
+             <input class="layui-btn" id="btnSave" lay-filter="accreditRole" lay-submit="" type="submit" value="确认修改" />
+        </div>
+    </form>
+</div>
+
+<!-- 行操作 -->
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+  <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="accredit"><i class="layui-icon">&#xe631;</i>授权</a>
+{{#  if(d.rstatename === '已禁用' ){ }}
+  <a class="layui-btn layui-btn layui-btn-xs" lay-event="stop"><i class="layui-icon">&#xe620;</i>启用</a>
+{{#  } else { }}  
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stop"><i class="layui-icon">&#xe620;</i>禁用</a>
+{{#  } }}   
+  
+</script>  
+
+<!-- 角色状态显示效果 -->    
+<script type="text/html" id="stateTpl">
+  {{#  if(d.rstatename === '已禁用'){ }}
+    <span style="color:#FF5722;">{{ d.rstatename }}</span>
+  {{#  } else { }}
+    <span style="color:#01AAED;">{{ d.rstatename }}
+  {{#  } }}
+</script> 
+<!-- 树形菜单所所需js -->
+<script type="text/javascript" src="../../js/layui-xtree.js"></script> 
+<!-- 展示页面所需js -->
+<script type="text/javascript" src="../../js/showRole.js" th:inline="none"></script>
+</body>
+</html>

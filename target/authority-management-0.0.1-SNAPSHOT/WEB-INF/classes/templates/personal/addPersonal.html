@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>addPersonal.html</title>
+
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    	 <head th:include="comm::header">
+  </head>
+    
+  <body>
+  <div class="x-body">
+  <form class="layui-form" lay-filter="boardFilter" action="addPersonal" >
+  <div class="layui-form-item">
+	<div  class="layui-input-block">
+	 <label class="layui-form-label"><span class="x-red">*</span>姓名</label>
+     <div class="layui-input-inline">
+		  <input name="pname" required lay-verify="username" autocomplete="off"  class="layui-input">
+	 </div>
+			
+      <label for="phone" class="layui-form-label"><span class="x-red">*</span>手机号</label>
+      <div class="layui-input-inline">
+         <input type="text" name="pphone" required lay-verify="phone"  autocomplete="off" class="layui-input">
+      </div>
+      
+      <label for="email" class="layui-form-label"><span class="x-red">*</span>验证邮箱</label>
+      <div class="layui-input-inline">
+         <input type="text" name="pmail" required lay-verify="email"  autocomplete="off" class="layui-input">
+      </div>
+      </div>
+  </div>
+  
+    <div class="layui-form-item">
+    <div class="layui-input-block">
+     <label class="layui-form-label">性别</label>
+      <input type="radio" name="psex" value="男" title="男" checked>
+      <input type="radio" name="psex" value="女" title="女">
+    </div>
+  </div>
+  
+    <div class="layui-form-item">
+    <div class="layui-input-block">
+    <label class="layui-form-label">婚姻状况</label>
+    <div class="layui-input-inline">
+      <select name="pmarital" style="width:150px;">
+        <option value="">未选择</option>
+        <option value="未婚">未婚</option>
+        <option value="已婚">已婚</option>
+      </select>
+    </div>
+      <label class="layui-form-label">受教育程度</label>
+      <div class="layui-input-inline">
+      <select name="pdegree" id="pdegree">
+        <option value="">未选择</option>
+      </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <label class="layui-form-label"><span class="x-red">*</span>公司名称</label>
+      <div class="layui-input-inline" >
+      	 <input type="text" name="cname" lay-verify="required" id="cname" autocomplete="off" class="layui-input" disabled>
+      	 </div>
+      <label class="layui-form-label"><span class="x-red">*</span>公司账号</label>
+      <div class="layui-input-inline">
+         <input type="text" name="cno" lay-verify="required"  autocomplete="off" id="cno" class="layui-input" disabled>
+         <input type="hidden" name="acid" id="acid"/>
+         </div>
+      <input class="layui-btn layui-btn-sm layui-btn-radius" type="button" onclick="x_admin_show('选择公司','toFindCom',800,500)" value="选择单位"/>
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+       <label class="layui-form-label">证件类型</label>
+       <div class="layui-input-inline">
+      <select name="pcertificate" id="pcertificate">
+        <option value="">未选择</option>
+      </select>
+      </div>
+       <label for="identity" class="layui-form-label"><span class="x-red">*</span>证件号</label>
+       <div class="layui-input-inline">
+      	 <input type="text" name="pnumber" required  lay-verify="identity"  autocomplete="off" class="layui-input">
+      	 </div>
+    </div>
+  </div>
+    	
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+       <label class="layui-form-label"><span class="x-red">*</span>汇缴基数</label>
+       <div class="layui-input-inline">
+      	 <input type="text" name="pbasenum" required  lay-verify="number"  autocomplete="off" class="layui-input" >
+      	 </div>
+        <label class="layui-form-label">开户银行</label>
+        <div class="layui-input-inline">
+      <select name="pbank" id="pbank">
+        <option value="">未选择</option>
+      </select>
+      </div>
+       <label class="layui-form-label"><span class="x-red">*</span>银行卡号</label>
+       <div class="layui-input-inline">
+      	 <input type="text" name="pbankno" required  lay-verify="bankno"  autocomplete="off" class="layui-input">
+      	 </div>
+    </div>
+  </div>
+    	
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+        <div class="layui-row">
+           <div class="layui-form-item" id="x-city">
+           <label class="layui-form-label"><span class="x-red">*</span>家庭住址</label>
+            <div class="layui-input-inline">
+              <select name="province" lay-filter="province" id="province" onchange="getPaddress()">
+                <option>请选择省</option>
+              </select>
+            </div>
+            <div class="layui-input-inline">
+              <select name="city" lay-filter="city" id="city" onchange="getPaddress()">
+                <option>请选择市</option>
+              </select>
+            </div>
+            <div class="layui-input-inline">
+              <select name="area" lay-filter="area" id="area" >
+                <option>请选择县/区</option>
+              </select>
+            </div>
+              <div class="layui-input-inline" style="margin-left:20px;">
+      	 		<input type="text" name="addressdetail" id="addressdetail" required placeholder="请填入详细地址信息"  lay-verify="required"  autocomplete="off" onblur="getPaddress()" class="layui-input">
+      	 	  </div>
+                <div><input type="hidden" name="paddress" id="paddress"></div>
+            
+          </div>
+      </div>
+    </div>
+  </div>
+ 
+  
+    <div class="layui-form-item" style="margin-left:110px;">
+	    <div style="display: inline-block;">
+			<label class="layui-form-label">提交证件照</label>
+			<a id="img_a"></a>
+			<img id="show" alt=""  height = "100" /><br>
+												
+			<input id="file" class="layui-btn layui-btn-normal" style="margin-left: 50px;background-color:#EEEEEE;color:black;"
+			type="file" name="pcardt" onchange="c()" /> 
+		</div>
+		 <div style="display: inline-block;">
+			<a id="img_b"></a>
+			<img id="show2" alt=""  height = "100" style="margin-left: 150px"/><br>
+												
+			<input id="file2" class="layui-btn layui-btn-normal" style="margin-left: 50px;background-color:#EEEEEE;color:black;"
+			type="file" name="pcardf" onchange="c2()" /> 
+		</div>
+	  </div>
+  
+    <div class="layui-form-item" style="margin-top:80px;margin-left:140px;">
+    <div class="layui-input-block">
+     <label class="layui-form-label"></label>
+       <div class="layui-input-inline">
+      <!-- <button class="layui-btn" type="submit">立即提交</button> -->
+       <input class="layui-btn" lay-submit="" type="submit" value="立即提交" />
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </div>
+    </form>
+    
+    
+    </div>
+   
+  </body>
+ 
+  
+  <script type="text/javascript">
+//加载下拉框中的数据(学历)
+  $.ajax({
+	  url:"/combobox/selectDegree",
+	  type:"post",
+	  dataType:"json",
+	  async:false,
+	  success:function(data){
+		 /* layer.alert(JSON.stringify(data)); */
+		 var list = "";
+		 for (var i = 0; i < data.length; i++) {
+			list+="<option value='"+data[i].pdegreeid+"'>"+data[i].degreename+"</option>";
+		 }
+		 
+		 $("#pdegree").append(list);
+		 renderForm();
+	  },
+	  error:function(data){
+		  layer.msg("错误");
+	  }
+  });
+//加载下拉框中的数据(证件类型)
+  $.ajax({
+	  url:"/combobox/selectCertificate",
+	  type:"post",
+	  dataType:"json",
+	  async:false,
+	  success:function(data){
+		 /* layer.alert(JSON.stringify(data)); */
+		 var list = "";
+		 for (var i = 0; i < data.length; i++) {
+			list+="<option value='"+data[i].cetid+"'>"+data[i].cetname+"</option>";
+		 }
+		 
+		 $("#pcertificate").append(list);
+		 renderForm();
+	  },
+	  error:function(data){
+		  layer.msg("错误");
+	  }
+  });
+//加载下拉框中的数据(开户银行)
+  $.ajax({
+	  url:"/combobox/selectBank",
+	  type:"post",
+	  dataType:"json",
+	  async:false,
+	  success:function(data){
+		 /* layer.alert(JSON.stringify(data)); */
+		 var list = "";
+		 for (var i = 0; i < data.length; i++) {
+			list+="<option value='"+data[i].bid+"'>"+data[i].bname+"</option>";
+		 }
+		 
+		 $("#pbank").append(list);
+		 renderForm();
+	  },
+	  error:function(data){
+		  layer.msg("错误");
+	  }
+  });
+  
+  
+  
+//预览图片
+	function c() {
+		$("#img_a").remove();
+		$("#show").show();
+		var r = new FileReader();
+		f = document.getElementById('file').files[0];
+		r.readAsDataURL(f);
+		r.onload = function(e) {
+			document.getElementById('show').src = this.result;
+		};
+	}
+	function c2() {
+		$("#img_b").remove();
+		$("#show2").show();
+		var r = new FileReader();
+		f = document.getElementById('file2').files[0];
+		r.readAsDataURL(f);
+		r.onload = function(e) {
+			document.getElementById('show2').src = this.result;
+		};
+	}
+
+	/*form.on('select(area)', function(data){
+		var addr1=$("#province").val();
+  	 	var addr2=$("#city").val();
+  	 	var addr3=$("#area").val();
+  	 	$("#paddress").val(addr1+addr2+addr3);
+	});*/
+ 
+ 
+   /*文件上传*/
+  layui.use('upload', function(){
+  var upload = layui.upload;
+  
+  //执行实例
+  var uploadInst = upload.render({
+    elem: '#test1' //绑定元素
+    ,url: '/api/upload/' //上传接口
+    ,
+    done: function(res){
+      //上传完毕回调
+    }
+    ,error: function(){
+      //请求异常回调
+    }
+  });
+});
+  
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+});
+
+
+</script>
+<!-- 城市联动 -->
+<script type="text/javascript" src="../../js/xcity.js"></script>
+    <script>
+      layui.use(['form','code'], function(){
+        form = layui.form;
+
+        layui.code();
+
+        $('#x-city').xcity('河南','郑州市','金水区');
+
+      });
+      
+      function getPaddress(){
+  	 	var addr1=$("#province").val();
+  	 	var addr2=$("#city").val();
+  	 	var addr3=$("#area").val();
+  	 	var addr4=$("#addressdetail").val();
+  	 	$("#paddress").val(addr1+addr2+addr3+addr4);
+  	 }
+
+
+    </script>
+     
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.CollectionAcocuntDao">
+	<!-- 根据传值日期形式,查询公司汇缴金额 -->
+	<select id="selFundByTime" parameterType="map" resultType="map">
+		select takefundmoney from takefund_record where taketime like concat(#{byYear},"%")  
+	</select>
+	
+	<select id="selCompanyMoneyByTime" parameterType="map" resultType="map">
+		select cdmuch from company_detail where cdmonth like concat(#{byYear},"%")  
+	</select>
+</mapper>
